@@ -18,7 +18,7 @@ namespace AdventOfCode.Solutions.Tests
         {
             subject = SolutionProvider.GetPuzzle(year, 1, 1);
 
-            var inputs =  PuzzleInputs2020._2020_01_01_example;
+            var inputs = PuzzleInputs2020._2020_01_01_example;
             var expected = "514579";
 
             var actual = subject.Solve(inputs);
@@ -67,5 +67,60 @@ namespace AdventOfCode.Solutions.Tests
 
         #endregion
 
+        #region "Day 2"
+
+        [TestMethod]
+        public void PuzzleDay02_1_ShouldSolveExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 2, 1);
+
+            var inputs = PuzzleInputs2020._2020_02_01_example;
+            var expected = "2";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay02_1_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 2, 1);
+
+            var inputs = PuzzleInputs2020._2020_02_01;
+            var expected = "418";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay02_2_ShouldSolveExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 2, 2);
+
+            var inputs = PuzzleInputs2020._2020_02_01_example;
+            var expected = "1";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay02_2_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 2, 2);
+
+            var inputs = PuzzleInputs2020._2020_02_01;
+            var expected = "616";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        #endregion
     }
 }

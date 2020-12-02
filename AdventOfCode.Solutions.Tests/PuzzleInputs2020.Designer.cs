@@ -168,5 +168,48 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_01_01_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1-4 j: jjjqzmgbjwpj
+        ///2-4 w: sckwwf
+        ///1-13 b: bcbbbbbbbbbbhbb
+        ///10-11 x: xjxxxxxxxxzxxx
+        ///13-14 d: dddddddddddddd
+        ///16-18 s: ksttbjsstpnsvtcjnx
+        ///3-8 k: gkkqkbpvkrx
+        ///3-7 c: mccnjgcxkfkp
+        ///3-7 b: hgbqzrjvwqbfc
+        ///8-14 r: rrrrrrrfrrrtrrrr
+        ///5-6 v: vvvvwpvvv
+        ///4-5 b: zfkpb
+        ///12-13 n: nwnwdplnhfhlnnnntfn
+        ///9-14 z: sxzjzfrzztczlw
+        ///1-14 n: vnnnnnnnnnnnnnnnnnnn
+        ///4-6 b: bbbsbb
+        ///2-7 x: xxsjxpxx
+        ///6-8 z: wzfqzzzzn
+        ///2-17 b: cbbmwqmjxhkvjnfbx
+        ///3-9 h: hhhhhghhshh
+        ///3-13 m: mmzmmmmmmmmmxmmmb
+        ///2-4 v: xnxv
+        ///3-4 s: tsxsns
+        ///1-11 m: mmmmzvm [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_02_01 {
+            get {
+                return ResourceManager.GetString("2020_02_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1-3 a: abcde
+        ///1-3 b: cdefg
+        ///2-9 c: ccccccccc.
+        /// </summary>
+        internal static string _2020_02_01_example {
+            get {
+                return ResourceManager.GetString("2020_02_01_example", resourceCulture);
+            }
+        }
     }
 }
