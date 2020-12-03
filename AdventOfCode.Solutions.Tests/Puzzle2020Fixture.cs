@@ -1,7 +1,6 @@
 ﻿using AdventOfCode.Common;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace AdventOfCode.Solutions.Tests
 {
@@ -121,6 +120,61 @@ namespace AdventOfCode.Solutions.Tests
             actual.Should().Be(expected);
         }
 
+        #endregion
+
+        #region "Day 3"
+
+        [TestMethod]
+        public void PuzzleDay03_1_ShouldSolveExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 3, 1);
+
+            var inputs = PuzzleInputs2020._2020_03_01_example;
+            var expected = "7";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay03_1_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 3, 1);
+
+            var inputs = PuzzleInputs2020._2020_03_01;
+            var expected = "244";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay03_2_ShouldSolveExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 3, 2);
+
+            var inputs = PuzzleInputs2020._2020_03_01_example;
+            var expected = "336";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay03_2_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 3, 2);
+
+            var inputs = PuzzleInputs2020._2020_03_01;
+            var expected = "9406609920";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
         #endregion
     }
 }
