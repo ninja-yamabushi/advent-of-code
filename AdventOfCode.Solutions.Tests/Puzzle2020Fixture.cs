@@ -278,5 +278,60 @@ namespace AdventOfCode.Solutions.Tests
         }
 
         #endregion
+
+        #region "Day 5"
+
+        [DataRow("FBFBBFFRLR", "357")]
+        [DataRow("BFFFBBFRRR", "567")]
+        [DataRow("FFFBBBFRRR", "119")]
+        [DataRow("BBFFBBFRLL", "820")]
+        [DataTestMethod]
+        public void PuzzleDay05_1_ShouldSolveDataInputs(string inputs, string expected)
+        {
+            subject = SolutionProvider.GetPuzzle(year, 5, 1);
+
+            var actual = subject.Solve(inputs);
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay05_1_ShouldSolveExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 5, 1);
+
+            var inputs = PuzzleInputs2020._2020_05_01_example;
+            var expected = "820";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+        
+        [TestMethod]
+        public void PuzzleDay05_1_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 5, 1);
+
+            var inputs = PuzzleInputs2020._2020_05_01;
+            var expected = "874";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay05_2_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 5, 2);
+
+            var inputs = PuzzleInputs2020._2020_05_01;
+            var expected = "594";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+        #endregion
     }
 }

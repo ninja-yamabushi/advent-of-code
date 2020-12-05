@@ -371,18 +371,74 @@ namespace AdventOfCode.Solutions.Tests {
         ///pid:545766238 ecl:hzl
         ///eyr:2022
         ///
-        ///iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
-        ///hcl:#623a2f
-        ///
-        ///eyr:2029 ecl:blu cid:129 byr:1989
-        ///iyr:2014 pid:896056539 hcl:#a97842 hgt:165cm
-        ///
-        ///hcl:#888785
-        ///hgt:164cm byr:2001 iyr:2015 cid [rest of string was truncated]&quot;;.
+        ///iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719.
         /// </summary>
         internal static string _2020_04_02_valid {
             get {
                 return ResourceManager.GetString("2020_04_02_valid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FFBBFFBRRR
+        ///FBFBBBBLRR
+        ///BFBBBBBLRR
+        ///FBBFFFBLLR
+        ///FFBBFBBLLR
+        ///FBFFFBBLRL
+        ///FBFFFFBRRL
+        ///FBBBBBFLLR
+        ///BFFFBBFLRR
+        ///FFBBFBFRLL
+        ///BFFFBFBLRL
+        ///BFBBBFBLLL
+        ///FFFBFBBLLR
+        ///FFBBBFBRLR
+        ///FFFBBBBLRR
+        ///BFFFFBFRRL
+        ///FBFFBBBRLR
+        ///BFFFFBFRLR
+        ///BFBFBFBRLR
+        ///FFBFBFFLLR
+        ///BBFBBFFRLL
+        ///BFFBBFFRRR
+        ///BBFBBFFRLR
+        ///FFBBBBFLRR
+        ///FFFFBBBLLR
+        ///FBBBBBBRRR
+        ///FBFFFBBRLL
+        ///FFBFBFFLLL
+        ///FFFBBFFRRL
+        ///BBFFBBFLRL
+        ///BFFFBBBLRR
+        ///FFBFFBFLLR
+        ///FFBFBFBRRR
+        ///FBBFBBFRLL
+        ///FFFBBFFLLR
+        ///FBFFBFBLLR
+        ///FBFFBBFLRL
+        ///BBFFFFFLRL
+        ///FBBBFFFLRR
+        ///BBFFBBBLRR
+        ///BFFFFFFRLL
+        ///BFFBFFFLRL
+        ///FFBFBBBL [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_05_01 {
+            get {
+                return ResourceManager.GetString("2020_05_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FBFBBFFRLR
+        ///BFFFBBFRRR
+        ///FFFBBBFRRR
+        ///BBFFBBFRLL.
+        /// </summary>
+        internal static string _2020_05_01_example {
+            get {
+                return ResourceManager.GetString("2020_05_01_example", resourceCulture);
             }
         }
     }
