@@ -136,4 +136,19 @@
   <data name="2020_03_01_example" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\2020_03_01_example.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="2020_04_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\2020_04_01.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="2020_04_01_example" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\2020_04_01_example.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="2020_04_02_invalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\2020_04_02_invalid.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="2020_04_02_mixed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\2020_04_02_mixed.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="2020_04_02_valid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\2020_04_02_valid.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

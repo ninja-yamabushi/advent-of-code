@@ -13,6 +13,11 @@ namespace AdventOfCode.Common
         {
             return source.SplitOn(Environment.NewLine);
         }
+        public static string[] SplitByEmptyLine(this string source)
+        {
+            return source.Split(new[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
         public static int[] GetArrayOfInt(this string source)
         {
             return source.SplitByLine().Select(s => int.Parse(s)).ToArray();

@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Common;
+using AdventOfCode.Solutions.Year2020.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -175,6 +176,107 @@ namespace AdventOfCode.Solutions.Tests
 
             actual.Should().Be(expected);
         }
+        #endregion
+
+        #region "Day 4"
+
+        [TestMethod]
+        public void PuzzleDay04_1_ShouldSolveExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 4, 1);
+
+            var inputs = PuzzleInputs2020._2020_04_01_example;
+            var expected = "2";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay04_1_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 4, 1);
+
+            var inputs = PuzzleInputs2020._2020_04_01;
+            var expected = "190";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay04_2_ShouldSolveValidExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 4, 2);
+
+            var inputs = PuzzleInputs2020._2020_04_02_valid;
+            var expected = "4";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay04_2_ShouldSolveInvalidExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 4, 2);
+
+            var inputs = PuzzleInputs2020._2020_04_02_invalid;
+            var expected = "0";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay04_2_ShouldSolveMixedExampleInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 4, 2);
+
+            var inputs = PuzzleInputs2020._2020_04_02_mixed;
+            var expected = "4";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay04_2_ShouldSolveOfficialInputs()
+        {
+            subject = SolutionProvider.GetPuzzle(year, 4, 2);
+
+            var inputs = PuzzleInputs2020._2020_04_01;
+            var expected = "121";
+
+            var actual = subject.Solve(inputs);
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void PuzzleDay04_2_ComplexRuleShouldWork()
+        {
+            IRules r1 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)));
+            Assert.IsTrue(r1.ValidateFor("160cm"));
+ 
+            IRules r2 = new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2)));
+            Assert.IsTrue(r2.ValidateFor("60in"));
+
+            IRules r3 = r1.Or(r2);
+            Assert.IsTrue(r3.ValidateFor("160cm"));
+            Assert.IsTrue(r3.ValidateFor("60in"));
+
+            IRules r4 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)))
+                .Or(new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2))));
+            Assert.IsTrue(r4.ValidateFor("160cm"));
+            Assert.IsTrue(r4.ValidateFor("60in"));
+        }
+
         #endregion
     }
 }
