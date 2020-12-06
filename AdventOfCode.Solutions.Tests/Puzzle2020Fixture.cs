@@ -8,262 +8,69 @@ namespace AdventOfCode.Solutions.Tests
     [TestClass]
     public class Puzzle2020Fixture
     {
+        public enum InputTypes
+        {
+            Resource, Value
+        }
+
         private int year = 2020;
         private IPuzzle subject;
 
-        #region "Day 1"
 
-        [TestMethod]
-        public void PuzzleDay01_1_ShouldSolveExampleInputs()
+        [DataRow(6, 1, "2020_06_01_example", "11")]
+        [DataRow(6, 1, "2020_06_01", "6878")]
+        [DataRow(6, 2, "2020_06_01_example", "6")]
+        [DataRow(6, 2, "2020_06_01", "3464")]
+
+        [DataRow(5, 1, "FBFBBFFRLR", "357", InputTypes.Value)]
+        [DataRow(5, 1, "BFFFBBFRRR", "567", InputTypes.Value)]
+        [DataRow(5, 1, "FFFBBBFRRR", "119", InputTypes.Value)]
+        [DataRow(5, 1, "BBFFBBFRLL", "820", InputTypes.Value)]
+        [DataRow(5, 1, "2020_05_01_example", "820")]
+        [DataRow(5, 1, "2020_05_01", "874")]
+        [DataRow(5, 2, "2020_05_01", "594")]
+
+        [DataRow(4, 1, "2020_04_01_example", "2")]
+        [DataRow(4, 1, "2020_04_01", "190")]
+        [DataRow(4, 2, "2020_04_02_valid", "4")]
+        [DataRow(4, 2, "2020_04_02_invalid", "0")]
+        [DataRow(4, 2, "2020_04_02_mixed", "4")]
+        [DataRow(4, 2, "2020_04_01", "121")]
+
+        [DataRow(3, 1, "2020_03_01_example", "7")]
+        [DataRow(3, 1, "2020_03_01", "244")]
+        [DataRow(3, 2, "2020_03_01_example", "336")]
+        [DataRow(3, 2, "2020_03_01", "9406609920")]
+
+        [DataRow(2, 1, "2020_02_01_example", "2")]
+        [DataRow(2, 1, "2020_02_01", "418")]
+        [DataRow(2, 2, "2020_02_01_example", "1")]
+        [DataRow(2, 2, "2020_02_01", "616")]
+
+        [DataRow(1, 1, "2020_01_01_example", "514579")]
+        [DataRow(1, 1, "2020_01_01", "1019904")]
+        [DataRow(1, 2, "2020_01_01_example", "241861950")]
+        [DataRow(1, 2, "2020_01_01", "176647680")]
+        [DataTestMethod]
+        public void ShouldSolvePuzzles(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
         {
-            subject = SolutionProvider.GetPuzzle(year, 1, 1);
+            subject = SolutionProvider.GetPuzzle(year, day, challenge);
 
-            var inputs = PuzzleInputs2020._2020_01_01_example;
-            var expected = "514579";
-
+            var inputs = (inputType == InputTypes.Resource) ? PuzzleInputs2020.ResourceManager.GetString(input) : input;
             var actual = subject.Solve(inputs);
 
             actual.Should().Be(expected);
         }
 
-        [TestMethod]
-        public void PuzzleDay01_1_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 1, 1);
-
-            var inputs = PuzzleInputs2020._2020_01_01;
-            var expected = "1019904";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay01_2_ShouldSolveExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 1, 2);
-
-            var inputs = PuzzleInputs2020._2020_01_01_example;
-            var expected = "241861950";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay01_2_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 1, 2);
-
-            var inputs = PuzzleInputs2020._2020_01_01;
-            var expected = "176647680";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        #endregion
-
-        #region "Day 2"
-
-        [TestMethod]
-        public void PuzzleDay02_1_ShouldSolveExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 2, 1);
-
-            var inputs = PuzzleInputs2020._2020_02_01_example;
-            var expected = "2";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay02_1_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 2, 1);
-
-            var inputs = PuzzleInputs2020._2020_02_01;
-            var expected = "418";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay02_2_ShouldSolveExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 2, 2);
-
-            var inputs = PuzzleInputs2020._2020_02_01_example;
-            var expected = "1";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay02_2_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 2, 2);
-
-            var inputs = PuzzleInputs2020._2020_02_01;
-            var expected = "616";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        #endregion
-
-        #region "Day 3"
-
-        [TestMethod]
-        public void PuzzleDay03_1_ShouldSolveExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 3, 1);
-
-            var inputs = PuzzleInputs2020._2020_03_01_example;
-            var expected = "7";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay03_1_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 3, 1);
-
-            var inputs = PuzzleInputs2020._2020_03_01;
-            var expected = "244";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay03_2_ShouldSolveExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 3, 2);
-
-            var inputs = PuzzleInputs2020._2020_03_01_example;
-            var expected = "336";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay03_2_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 3, 2);
-
-            var inputs = PuzzleInputs2020._2020_03_01;
-            var expected = "9406609920";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-        #endregion
 
         #region "Day 4"
-
-        [TestMethod]
-        public void PuzzleDay04_1_ShouldSolveExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 4, 1);
-
-            var inputs = PuzzleInputs2020._2020_04_01_example;
-            var expected = "2";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay04_1_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 4, 1);
-
-            var inputs = PuzzleInputs2020._2020_04_01;
-            var expected = "190";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay04_2_ShouldSolveValidExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 4, 2);
-
-            var inputs = PuzzleInputs2020._2020_04_02_valid;
-            var expected = "4";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay04_2_ShouldSolveInvalidExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 4, 2);
-
-            var inputs = PuzzleInputs2020._2020_04_02_invalid;
-            var expected = "0";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay04_2_ShouldSolveMixedExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 4, 2);
-
-            var inputs = PuzzleInputs2020._2020_04_02_mixed;
-            var expected = "4";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay04_2_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 4, 2);
-
-            var inputs = PuzzleInputs2020._2020_04_01;
-            var expected = "121";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
 
         [TestMethod]
         public void PuzzleDay04_2_ComplexRuleShouldWork()
         {
             IRules r1 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)));
             Assert.IsTrue(r1.ValidateFor("160cm"));
- 
+
             IRules r2 = new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2)));
             Assert.IsTrue(r2.ValidateFor("60in"));
 
@@ -278,60 +85,6 @@ namespace AdventOfCode.Solutions.Tests
         }
 
         #endregion
-
-        #region "Day 5"
-
-        [DataRow("FBFBBFFRLR", "357")]
-        [DataRow("BFFFBBFRRR", "567")]
-        [DataRow("FFFBBBFRRR", "119")]
-        [DataRow("BBFFBBFRLL", "820")]
-        [DataTestMethod]
-        public void PuzzleDay05_1_ShouldSolveDataInputs(string inputs, string expected)
-        {
-            subject = SolutionProvider.GetPuzzle(year, 5, 1);
-
-            var actual = subject.Solve(inputs);
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay05_1_ShouldSolveExampleInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 5, 1);
-
-            var inputs = PuzzleInputs2020._2020_05_01_example;
-            var expected = "820";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-        
-        [TestMethod]
-        public void PuzzleDay05_1_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 5, 1);
-
-            var inputs = PuzzleInputs2020._2020_05_01;
-            var expected = "874";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void PuzzleDay05_2_ShouldSolveOfficialInputs()
-        {
-            subject = SolutionProvider.GetPuzzle(year, 5, 2);
-
-            var inputs = PuzzleInputs2020._2020_05_01;
-            var expected = "594";
-
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
-        }
-        #endregion
+ 
     }
 }

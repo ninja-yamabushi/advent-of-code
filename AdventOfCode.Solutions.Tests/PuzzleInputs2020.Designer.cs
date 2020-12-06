@@ -441,5 +441,79 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_05_01_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to xtpmjeuayzkflcdo
+        ///zdaeyxlpftkmojc
+        ///
+        ///ifnkhzalvprjtyus
+        ///lmihuzrytjns
+        ///uilmsotygbnhrzj
+        ///uwslqctjnirzxhy
+        ///
+        ///lhuydwqxaempbisrnfcjtvz
+        ///rvtcegbhljadfpxzsiuyqwnm
+        ///rzyvtefjdsplucmqbinahxw
+        ///
+        ///whlxgytuoaidpfrsbvmkjqez
+        ///iwfghlytovbpdemzanjq
+        ///mpejclwhqziatybogvdf
+        ///
+        ///qsmuehbvfiwlkx
+        ///gtmdsbrqfwhk
+        ///
+        ///lagwjpd
+        ///dpglwja
+        ///qgdawplj
+        ///
+        ///faqjpheg
+        ///acnfgtkzj
+        ///msjdfox
+        ///
+        ///gsqhdrcvyxbp
+        ///yhvgpsqxcbdr
+        ///drqvgxhyspcb
+        ///cgqrypdhbxvs
+        ///hbdxgyscjqprv
+        ///
+        ///bgahiyplewc
+        ///qaprike
+        ///aojpszixe
+        ///airpksoe
+        ///mpzaiek
+        ///
+        ///ihyudtfbjqnxop
+        ///poyiuqjdlhmtxb
+        ///
+        ///gw [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_06_01 {
+            get {
+                return ResourceManager.GetString("2020_06_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to abc
+        ///
+        ///a
+        ///b
+        ///c
+        ///
+        ///ab
+        ///ac
+        ///
+        ///a
+        ///a
+        ///a
+        ///a
+        ///
+        ///b.
+        /// </summary>
+        internal static string _2020_06_01_example {
+            get {
+                return ResourceManager.GetString("2020_06_01_example", resourceCulture);
+            }
+        }
     }
 }
