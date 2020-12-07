@@ -515,5 +515,53 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_06_01_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to shiny aqua bags contain 1 dark white bag.
+        ///muted blue bags contain 1 vibrant lavender bag, 4 dotted silver bags, 2 dim indigo bags.
+        ///drab gray bags contain 5 mirrored white bags, 1 light green bag, 5 shiny lavender bags, 5 faded aqua bags.
+        ///muted indigo bags contain 4 muted chartreuse bags, 2 dotted teal bags.
+        ///drab white bags contain 2 dull fuchsia bags, 1 vibrant bronze bag.
+        ///dim lavender bags contain 4 muted tan bags.
+        ///dotted tomato bags contain 1 mirrored lime bag, 2 vibrant white bags.
+        ///clear orange ba [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_07_01 {
+            get {
+                return ResourceManager.GetString("2020_07_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to light red bags contain 1 bright white bag, 2 muted yellow bags.
+        ///dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+        ///bright white bags contain 1 shiny gold bag.
+        ///muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
+        ///shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
+        ///dark olive bags contain 3 faded blue bags, 4 dotted black bags.
+        ///vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
+        ///faded blue bags contain no other bags.
+        ///dotted black bags contain no othe [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_07_01_example {
+            get {
+                return ResourceManager.GetString("2020_07_01_example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to shiny gold bags contain 2 dark red bags.
+        ///dark red bags contain 2 dark orange bags.
+        ///dark orange bags contain 2 dark yellow bags.
+        ///dark yellow bags contain 2 dark green bags.
+        ///dark green bags contain 2 dark blue bags.
+        ///dark blue bags contain 2 dark violet bags.
+        ///dark violet bags contain no other bags..
+        /// </summary>
+        internal static string _2020_07_02_example {
+            get {
+                return ResourceManager.GetString("2020_07_02_example", resourceCulture);
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace AdventOfCode.Common
     {
         public static string[] SplitOn(this string source, string separator)
         {
-            return source.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            return source.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries);
         }
         public static string[] SplitByLine(this string source)
         {

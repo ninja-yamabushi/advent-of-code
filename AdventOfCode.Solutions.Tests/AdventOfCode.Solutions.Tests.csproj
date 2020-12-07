@@ -152,6 +152,15 @@
   <ItemGroup>
     <None Include="Resources\2020_06_01.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2020_07_01_example.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2020_07_01.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2020_07_02_example.txt" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

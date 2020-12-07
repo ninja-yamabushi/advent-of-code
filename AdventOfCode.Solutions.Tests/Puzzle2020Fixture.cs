@@ -16,6 +16,11 @@ namespace AdventOfCode.Solutions.Tests
         private int year = 2020;
         private IPuzzle subject;
 
+        [DataRow(7, 1, "2020_07_01_example", "4")]
+        [DataRow(7, 1, "2020_07_01", "265")]
+        [DataRow(7, 2, "2020_07_01_example", "32")]
+        [DataRow(7, 2, "2020_07_02_example", "126")]
+        [DataRow(7, 2, "2020_07_01", "14177")]
 
         [DataRow(6, 1, "2020_06_01_example", "11")]
         [DataRow(6, 1, "2020_06_01", "6878")]
