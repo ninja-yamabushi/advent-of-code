@@ -56,6 +56,7 @@
     <Compile Include="Year2020\Puzzle5.cs" />
     <Compile Include="Year2020\Puzzle6.cs" />
     <Compile Include="Year2020\Puzzle7.cs" />
+    <Compile Include="Year2020\Puzzle8.cs" />
     <Compile Include="Year2020\Shared\Rules.cs" />
     <Compile Include="Year2020\Puzzle1.cs" />
     <Compile Include="Year2020\Puzzle3.cs" />
