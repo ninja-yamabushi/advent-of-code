@@ -22,5 +22,9 @@ namespace AdventOfCode.Common
         {
             return source.SplitByLine().Select(s => int.Parse(s)).ToArray();
         }
+        public static long[] GetArrayOfLong(this string source)
+        {
+            return source.SplitByLine().Select(s => long.Parse(s)).ToArray();
+        }
     }
 }
