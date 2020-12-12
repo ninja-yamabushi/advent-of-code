@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2020
 {
+
     public class Puzzle9_999 : IPuzzle
     {
         public string Solve(string inputs)
@@ -152,14 +153,6 @@ namespace AdventOfCode.Solutions.Year2020
                 startIndex++;
             }
             return long.MinValue;
-        }
-    }
-
-    public static class ArrayExtensions
-    {
-        public static T[] Subset<T>(this T[] source, int startIndex, int lenght)
-        {
-            return source.Skip(startIndex).Take(lenght).ToArray();
         }
     }
 }

@@ -16,6 +16,18 @@ namespace AdventOfCode.Solutions.Tests
         private int year = 2020;
         private IPuzzle subject;
 
+        [DataRow(11, 1, "2020_11_01_example", "37")]
+        [DataRow(11, 1, "2020_11_01", "2263")]
+        [DataRow(11, 2, "2020_11_01_example", "26")]
+        [DataRow(11, 2, "2020_11_01", "2002")]
+
+        [DataRow(10, 1, "2020_10_01_example1", "35")]
+        [DataRow(10, 1, "2020_10_01_example2", "220")]
+        [DataRow(10, 1, "2020_10_01", "2176")]
+        //[DataRow(10, 2, "2020_10_01_example1", "8")]
+        //[DataRow(10, 2, "2020_10_01_example2", "19208")]
+        
+
         [DataRow(9, 999, "2020_09_01_example", "127")]
         [DataRow(9, 1, "2020_09_01", "542529149")]
         [DataRow(9, 998, "2020_09_01_example", "62")]
@@ -77,6 +89,13 @@ namespace AdventOfCode.Solutions.Tests
             actual.Should().Be(expected);
         }
 
+        [DataRow(10, 2, "2020_10_01", "-1")]
+        [DataTestMethod]
+        [Ignore("Long running")]
+        public void ShouldSolveLongRunningPuzzles(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
+        {
+            ShouldSolvePuzzles(day, challenge, input, expected, inputType);
+        }
 
         #region "Day 4"
 
@@ -101,5 +120,72 @@ namespace AdventOfCode.Solutions.Tests
 
         #endregion
 
+        #region "Day 11"
+
+        [TestMethod]
+        public void PuzzleDay11_2_ShouldFindEightAdjascentSeats()
+        {
+            string inputs = @".......#.
+...#.....
+.#.......
+.........
+..#L....#
+....#....
+.........
+#........
+...#.....";
+
+            var area = new Year2020.WaitingArea(inputs);
+            var place = area[3,4];
+
+            Assert.IsTrue(place.IsSeat);
+            Assert.IsTrue(place.IsEmpty);
+
+            var adj = place.FindAdjacentOrVisibleSeats();
+
+            Assert.AreEqual(8, adj.Length);
+
+        }
+        [TestMethod]
+        public void PuzzleDay11_2_ShouldFindOneAdjascentSeats()
+        {
+            string inputs = @".............
+.L.L.#.#.#.#.
+.............";
+
+            var area = new Year2020.WaitingArea(inputs);
+            var place = area[1, 1];
+
+            Assert.IsTrue(place.IsSeat);
+            Assert.IsTrue(place.IsEmpty);
+
+            var adj = place.FindAdjacentOrVisibleSeats();
+
+            Assert.AreEqual(1, adj.Length);
+
+        }
+        [TestMethod]
+        public void PuzzleDay11_2_ShouldFindNoEmptyAdjascentSeats()
+        {
+            string inputs = @".##.##.
+#.#.#.#
+##...##
+...L...
+##...##
+#.#.#.#
+.##.##.";
+
+            var area = new Year2020.WaitingArea(inputs);
+            var place = area[3, 3];
+
+            Assert.IsTrue(place.IsSeat);
+            Assert.IsTrue(place.IsEmpty);
+
+            var adj = place.FindAdjacentOrVisibleSeats();
+
+            Assert.AreEqual(0, adj.Length);
+
+        }
+        #endregion
     }
 }
