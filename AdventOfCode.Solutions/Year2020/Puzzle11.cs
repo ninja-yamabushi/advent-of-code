@@ -12,7 +12,7 @@ namespace AdventOfCode.Solutions.Year2020
             var room = new WaitingArea(inputs);
             var prediction = new Predictions();
 
-            prediction.ApplyPrediction1(room);
+            prediction.ApplyPrediction(room, 4, 1);
 
             return room.CountOccupiedPlaces().ToString();
         }
@@ -24,7 +24,7 @@ namespace AdventOfCode.Solutions.Year2020
             var room = new WaitingArea(inputs);
             var prediction = new Predictions();
 
-            prediction.ApplyPrediction2(room);
+            prediction.ApplyPrediction(room, 5);
 
             return room.CountOccupiedPlaces().ToString();
         }
@@ -32,21 +32,14 @@ namespace AdventOfCode.Solutions.Year2020
 
     public class Predictions
     {
-        public void ApplyPrediction1(WaitingArea area)
+        public void ApplyPrediction(WaitingArea area, int tolerance, long distance = long.MaxValue)
         {
             var count = 0;
-            while (ApplyPrediction1To(area))
+            while (ApplyPredictionTo(area, tolerance, distance))
                 count++;
         }
 
-        public void ApplyPrediction2(WaitingArea area)
-        {
-            var count = 0;
-            while (ApplyPrediction2To(area))
-                count++;
-        }
-
-        private bool ApplyPrediction1To(WaitingArea area)
+        private bool ApplyPredictionTo(WaitingArea area, int tolerance, long distance = long.MaxValue)
         {
             var snapshot = area.Clone();
 
@@ -58,7 +51,7 @@ namespace AdventOfCode.Solutions.Year2020
                     var chair = area[cIndex, rIndex];
                     if (!staticChair.IsSeat) continue;
 
-                    var adjacentSeats = staticChair.FindAdjacentSeats();
+                    var adjacentSeats = staticChair.FindAdjacentOrVisibleSeats(distance);
                     if (staticChair.IsEmpty)
                     {
                         if (CountOccupiedIn(adjacentSeats) == 0)
@@ -69,41 +62,7 @@ namespace AdventOfCode.Solutions.Year2020
                     }
                     else
                     {
-                        if (CountOccupiedIn(adjacentSeats) >= 4)
-                        {
-                            chair.ChangeState();
-                            changed = true;
-                        }
-                    }
-                }
-
-            return changed;
-        }
-
-        private bool ApplyPrediction2To(WaitingArea area)
-        {
-            var snapshot = area.Clone();
-
-            var changed = false;
-            for (int rIndex = 0; rIndex < snapshot.RowCount; rIndex++)
-                for (int cIndex = 0; cIndex < snapshot.ColCount; cIndex++)
-                {
-                    var staticChair = snapshot[cIndex, rIndex];
-                    var chair = area[cIndex, rIndex];
-                    if (!staticChair.IsSeat) continue;
-
-                    var adjacentSeats = staticChair.FindAdjacentOrVisibleSeats();
-                    if (staticChair.IsEmpty)
-                    {
-                        if (CountOccupiedIn(adjacentSeats) == 0)
-                        {
-                            chair.ChangeState();
-                            changed = true;
-                        }
-                    }
-                    else
-                    {
-                        if (CountOccupiedIn(adjacentSeats) >= 5)
+                        if (CountOccupiedIn(adjacentSeats) >= tolerance)
                         {
                             chair.ChangeState();
                             changed = true;
@@ -123,23 +82,14 @@ namespace AdventOfCode.Solutions.Year2020
     public class WaitingArea
     {
         private List<IPlace[]> places;
-        public int RowCount { get; private set; }
-        public int ColCount { get; private set; }
+        public int RowCount { get; }
+        public int ColCount { get; }
 
         public WaitingArea(string inputs)
         {
             places = new List<IPlace[]>();
             inputs.SplitByLine().ToList().ForEach(line => places.Add(line.ToCharArray().Select(place => Chair.Parse(place, this)).ToArray()));
-            init();
-        }
-        private WaitingArea(List<IPlace[]> places)
-        {
-            this.places = places;
-            init();
-        }
 
-        private void init()
-        {
             RowCount = places.Count;
             ColCount = places[0].Length;
 
@@ -183,10 +133,8 @@ namespace AdventOfCode.Solutions.Year2020
         bool IsEmpty { get; }
 
         void ChangeState();
-
         void AssignPosition(int row, int coll);
-        IPlace[] FindAdjacentSeats();
-        IPlace[] FindAdjacentOrVisibleSeats();
+        IPlace[] FindAdjacentOrVisibleSeats(long distance = long.MaxValue);
     }
 
     public class Chair : IPlace
@@ -221,52 +169,37 @@ namespace AdventOfCode.Solutions.Year2020
             this.myCol = coll;
         }
 
-        public IPlace[] FindAdjacentSeats()
-        {
-            int startR = myRow == 0 ? 0 : myRow - 1;
-            int startC = myCol == 0 ? 0 : myCol - 1;
-            int endR = myRow == area.RowCount - 1 ? myRow : myRow + 1;
-            int endC = myCol == area.ColCount - 1 ? myCol : myCol + 1;
-
-            var result = new List<IPlace>();
-            for (int rIndex = startR; rIndex <= endR; rIndex++)
-                for (int cIndex = startC; cIndex <= endC; cIndex++)
-                {
-                    if (rIndex != myRow || cIndex != myCol)
-                    {
-                        var c = area[cIndex, rIndex];
-                        if (c.IsSeat)
-                            result.Add(area[cIndex, rIndex]);
-                    }
-                }
-
-            return result.ToArray();
-        }
-        public IPlace[] FindAdjacentOrVisibleSeats()
+        public IPlace[] FindAdjacentOrVisibleSeats(long distance = long.MaxValue)
         {
             var result = new List<IPlace>();
 
-            AddFirstChairFound(result, -1, -1);
-            AddFirstChairFound(result, -1, 0);
-            AddFirstChairFound(result, -1, 1);
-            AddFirstChairFound(result, 0, -1);
-            AddFirstChairFound(result, 0, 1);
-            AddFirstChairFound(result, 1, -1);
-            AddFirstChairFound(result, 1, 0);
-            AddFirstChairFound(result, 1, 1);
+            AddFirstChairFound(result, PlaceVariants.Decrease, PlaceVariants.Decrease, distance);
+            AddFirstChairFound(result, PlaceVariants.Decrease, PlaceVariants.None, distance);
+            AddFirstChairFound(result, PlaceVariants.Decrease, PlaceVariants.Increase, distance);
+            AddFirstChairFound(result, PlaceVariants.None, PlaceVariants.Decrease, distance);
+            AddFirstChairFound(result, PlaceVariants.None, PlaceVariants.Increase, distance);
+            AddFirstChairFound(result, PlaceVariants.Increase, PlaceVariants.Decrease, distance);
+            AddFirstChairFound(result, PlaceVariants.Increase, PlaceVariants.None, distance);
+            AddFirstChairFound(result, PlaceVariants.Increase, PlaceVariants.Increase, distance);
 
             return result.ToArray();
         }
-        private void AddFirstChairFound(List<IPlace> found, int xVariant, int yVariant)
+
+        public enum PlaceVariants
+        { Increase = 1, None = 0, Decrease = -1 }
+        private void AddFirstChairFound(List<IPlace> found, PlaceVariants xVariant, PlaceVariants yVariant, long distance = long.MaxValue)
         {
             bool done = false;
             int x = myCol;
             int y = myRow;
+            long iteration = 0;
 
             while (!done)
             {
-                x = x + xVariant;
-                y = y + yVariant;
+                if (iteration == distance) return;
+
+                x = x + (int)xVariant;
+                y = y + (int)yVariant;
 
                 if (x < 0 || x >= area.ColCount) return;
                 if (y < 0 || y >= area.RowCount) return;
@@ -277,6 +210,7 @@ namespace AdventOfCode.Solutions.Year2020
                     found.Add(place);
                     done = true;
                 }
+                iteration++;
             }
         }
 
@@ -309,12 +243,7 @@ namespace AdventOfCode.Solutions.Year2020
                 throw new System.NotImplementedException();
             }
 
-            public IPlace[] FindAdjacentOrVisibleSeats()
-            {
-                throw new System.NotImplementedException();
-            }
-
-            public IPlace[] FindAdjacentSeats()
+            public IPlace[] FindAdjacentOrVisibleSeats(long distance)
             {
                 throw new System.NotImplementedException();
             }
