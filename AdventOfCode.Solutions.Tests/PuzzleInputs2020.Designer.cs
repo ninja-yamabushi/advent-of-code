@@ -999,5 +999,138 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_11_01_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to W3
+        ///R180
+        ///S1
+        ///F2
+        ///R90
+        ///W3
+        ///F81
+        ///L270
+        ///W5
+        ///F30
+        ///R90
+        ///E5
+        ///S3
+        ///F44
+        ///R180
+        ///S4
+        ///F21
+        ///R270
+        ///F2
+        ///W3
+        ///F36
+        ///L90
+        ///S1
+        ///E3
+        ///F86
+        ///S2
+        ///F98
+        ///E4
+        ///F93
+        ///W5
+        ///R90
+        ///W5
+        ///F4
+        ///E4
+        ///F6
+        ///R90
+        ///N2
+        ///L90
+        ///F52
+        ///R90
+        ///W4
+        ///F30
+        ///E5
+        ///W5
+        ///N4
+        ///F1
+        ///N3
+        ///W2
+        ///F89
+        ///E1
+        ///L90
+        ///W1
+        ///R90
+        ///F67
+        ///N5
+        ///R90
+        ///F95
+        ///L90
+        ///E4
+        ///S4
+        ///E2
+        ///N4
+        ///E4
+        ///R90
+        ///R90
+        ///F99
+        ///W1
+        ///R90
+        ///E4
+        ///F26
+        ///W5
+        ///L90
+        ///F89
+        ///E2
+        ///F18
+        ///W3
+        ///L90
+        ///F64
+        ///N2
+        ///F69
+        ///L90
+        ///F81
+        ///R90
+        ///E4
+        ///L90
+        ///N5
+        ///E2
+        ///F25
+        ///W4
+        ///L180
+        ///N2
+        ///R90
+        ///F82
+        ///R90
+        ///S3
+        ///F64
+        ///E4
+        ///F11
+        ///R90
+        ///F93
+        ///E2
+        ///F18
+        ///L90
+        ///R180
+        ///F13
+        ///L90
+        ///F37
+        ///L90
+        ///F63
+        ///R90
+        ///W3
+        ///N [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_12_01 {
+            get {
+                return ResourceManager.GetString("2020_12_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to F10
+        ///N3
+        ///F7
+        ///R90
+        ///F11.
+        /// </summary>
+        internal static string _2020_12_01_example {
+            get {
+                return ResourceManager.GetString("2020_12_01_example", resourceCulture);
+            }
+        }
     }
 }

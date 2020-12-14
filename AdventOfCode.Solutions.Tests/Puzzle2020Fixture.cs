@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Common;
+using AdventOfCode.Solutions.Year2020;
 using AdventOfCode.Solutions.Year2020.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,6 +17,11 @@ namespace AdventOfCode.Solutions.Tests
         private int year = 2020;
         private IPuzzle subject;
 
+        [DataRow(12, 1, "2020_12_01_example", "25")]
+        [DataRow(12, 1, "2020_12_01", "381")]
+        [DataRow(12, 2, "2020_12_01_example", "286")]
+        [DataRow(12, 2, "2020_12_01", "28591")]
+
         [DataRow(11, 1, "2020_11_01_example", "37")]
         [DataRow(11, 1, "2020_11_01", "2263")]
         [DataRow(11, 2, "2020_11_01_example", "26")]
@@ -26,7 +32,7 @@ namespace AdventOfCode.Solutions.Tests
         [DataRow(10, 1, "2020_10_01", "2176")]
         //[DataRow(10, 2, "2020_10_01_example1", "8")]
         //[DataRow(10, 2, "2020_10_01_example2", "19208")]
-        
+
 
         [DataRow(9, 999, "2020_09_01_example", "127")]
         [DataRow(9, 1, "2020_09_01", "542529149")]
@@ -135,8 +141,8 @@ namespace AdventOfCode.Solutions.Tests
 #........
 ...#.....";
 
-            var area = new Year2020.WaitingArea(inputs);
-            var place = area[3,4];
+            var area = new WaitingArea(inputs);
+            var place = area[3, 4];
 
             Assert.IsTrue(place.IsSeat);
             Assert.IsTrue(place.IsEmpty);
@@ -153,7 +159,7 @@ namespace AdventOfCode.Solutions.Tests
 .L.L.#.#.#.#.
 .............";
 
-            var area = new Year2020.WaitingArea(inputs);
+            var area = new WaitingArea(inputs);
             var place = area[1, 1];
 
             Assert.IsTrue(place.IsSeat);
@@ -175,7 +181,7 @@ namespace AdventOfCode.Solutions.Tests
 #.#.#.#
 .##.##.";
 
-            var area = new Year2020.WaitingArea(inputs);
+            var area = new WaitingArea(inputs);
             var place = area[3, 3];
 
             Assert.IsTrue(place.IsSeat);
@@ -186,6 +192,66 @@ namespace AdventOfCode.Solutions.Tests
             Assert.AreEqual(0, adj.Length);
 
         }
+        #endregion
+
+        #region "Day 12"
+
+        //move, turn, keep going
+
+        [TestMethod]
+        public void PuzzleDay12_1_ShouldParseSingleAction()
+        {
+            string input = @"F10";
+
+            var action = NavigationAction.ParseSingle(input);
+
+            Assert.AreEqual("F : 10", action.ToString());
+        }
+        [TestMethod]
+        public void PuzzleDay12_1_ShouldParseActions()
+        {
+            string inputs = @"F10
+N3
+F7
+R90
+F11";
+
+            var actions = NavigationAction.Parse(inputs);
+
+            Assert.AreEqual(5, actions.Length);
+            Assert.AreEqual("F : 10", actions[0].ToString());
+            Assert.AreEqual("N : 3", actions[1].ToString());
+            Assert.AreEqual("F : 7", actions[2].ToString());
+            Assert.AreEqual("R : 90", actions[3].ToString());
+            Assert.AreEqual("F : 11", actions[4].ToString());
+        }
+
+        [TestMethod]
+        public void PuzzleDay12_1_ShouldParseDirection()
+        {
+            var direction = Direction.Parse("N");
+
+            Assert.IsTrue(direction.Is(Direction.North));
+        }
+
+        [TestMethod]
+        public void PuzzleDay12_1_ShouldMoveDirection()
+        {
+            Assert.IsTrue(Direction.North.RotateRightBy(0).Is(Direction.North));
+            Assert.IsTrue(Direction.North.RotateRightBy(90).Is(Direction.East));
+            Assert.IsTrue(Direction.North.RotateRightBy(180).Is(Direction.South));
+            Assert.IsTrue(Direction.North.RotateRightBy(360).Is(Direction.West));
+            Assert.IsTrue(Direction.North.RotateRightBy(450).Is(Direction.North));
+            Assert.IsTrue(Direction.North.RotateRightBy(540).Is(Direction.East));
+
+            Assert.IsTrue(Direction.North.RotateLeftBy(0).Is(Direction.North));
+            Assert.IsTrue(Direction.North.RotateLeftBy(90).Is(Direction.West));
+            Assert.IsTrue(Direction.North.RotateLeftBy(180).Is(Direction.South));
+            Assert.IsTrue(Direction.North.RotateLeftBy(360).Is(Direction.East));
+            Assert.IsTrue(Direction.North.RotateLeftBy(450).Is(Direction.North));
+            Assert.IsTrue(Direction.North.RotateLeftBy(540).Is(Direction.West));
+        }
+
         #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode.Common
+﻿using System;
+
+namespace AdventOfCode.Common
 {
     public enum BetweenType { Inclusive, Exclusive }
 
@@ -9,6 +11,11 @@
             if (type == BetweenType.Exclusive)
                 return (source > min && source < max);
             return (source >= min && source <= max);
+        }
+
+        public static int AbsoluteValue(this int source)
+        {
+            return Math.Abs(source);
         }
     }
 }
