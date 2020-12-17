@@ -3,6 +3,7 @@ using AdventOfCode.Solutions.Year2020;
 using AdventOfCode.Solutions.Year2020.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace AdventOfCode.Solutions.Tests
 {
@@ -16,6 +17,21 @@ namespace AdventOfCode.Solutions.Tests
 
         private int year = 2020;
         private IPuzzle subject;
+
+        [DataRow(14, 1, "2020_14_01_example", "165")]
+        [DataRow(14, 1, "2020_14_01", "13727901897109")]
+        [DataRow(14, 2, "2020_14_02_example", "208")]
+        [DataRow(14, 2, "2020_14_01", "5579916171823")]
+
+        [DataRow(13, 1, "2020_13_01_example", "295")]
+        [DataRow(13, 1, "2020_13_01", "222")]
+        [DataRow(13, 2, "2020_13_01_example", "1068781")]
+        [DataRow(13, 2, "0\r\n17,x,13,19", "3417", InputTypes.Value)]
+        [DataRow(13, 2, "0\r\n67,7,59,61", "754018", InputTypes.Value)]
+        [DataRow(13, 2, "0\r\n67,x,7,59,61", "779210", InputTypes.Value)]
+        [DataRow(13, 2, "0\r\n67,7,x,59,61", "1261476", InputTypes.Value)]
+        [DataRow(13, 2, "0\r\n1789,37,47,1889", "1202161486", InputTypes.Value)]
+        
 
         [DataRow(12, 1, "2020_12_01_example", "25")]
         [DataRow(12, 1, "2020_12_01", "381")]
@@ -95,7 +111,8 @@ namespace AdventOfCode.Solutions.Tests
             actual.Should().Be(expected);
         }
 
-        [DataRow(10, 2, "2020_10_01", "-1")]
+        [DataRow(13, 2, "2020_13_01", "-1")]
+        //[DataRow(10, 2, "2020_10_01", "-1")]
         [DataTestMethod]
         [Ignore("Long running")]
         public void ShouldSolveLongRunningPuzzles(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
@@ -240,16 +257,75 @@ F11";
             Assert.IsTrue(Direction.North.RotateRightBy(0).Is(Direction.North));
             Assert.IsTrue(Direction.North.RotateRightBy(90).Is(Direction.East));
             Assert.IsTrue(Direction.North.RotateRightBy(180).Is(Direction.South));
-            Assert.IsTrue(Direction.North.RotateRightBy(360).Is(Direction.West));
-            Assert.IsTrue(Direction.North.RotateRightBy(450).Is(Direction.North));
-            Assert.IsTrue(Direction.North.RotateRightBy(540).Is(Direction.East));
+            Assert.IsTrue(Direction.North.RotateRightBy(270).Is(Direction.West));
+            Assert.IsTrue(Direction.North.RotateRightBy(360).Is(Direction.North));
+            Assert.IsTrue(Direction.North.RotateRightBy(450).Is(Direction.East));
 
             Assert.IsTrue(Direction.North.RotateLeftBy(0).Is(Direction.North));
             Assert.IsTrue(Direction.North.RotateLeftBy(90).Is(Direction.West));
             Assert.IsTrue(Direction.North.RotateLeftBy(180).Is(Direction.South));
-            Assert.IsTrue(Direction.North.RotateLeftBy(360).Is(Direction.East));
-            Assert.IsTrue(Direction.North.RotateLeftBy(450).Is(Direction.North));
-            Assert.IsTrue(Direction.North.RotateLeftBy(540).Is(Direction.West));
+            Assert.IsTrue(Direction.North.RotateLeftBy(270).Is(Direction.East));
+            Assert.IsTrue(Direction.North.RotateLeftBy(360).Is(Direction.North));
+            Assert.IsTrue(Direction.North.RotateLeftBy(450).Is(Direction.West));
+        }
+
+        #endregion
+
+        #region "Day 14"
+
+        [TestMethod]
+        public void PuzzleDay14_1_ShouldConvertBinaryToLong()
+        {
+            string _0 = "000000000000000000000000000000000000";
+            string _11 = "000000000000000000000000000000001011";
+            string _73 = "000000000000000000000000000001001001";
+            string max = "111111111111111111111111111111111111";
+
+            Assert.AreEqual(0, _0.BinaryToLong()) ;
+            Assert.AreEqual(11, _11.BinaryToLong());
+            Assert.AreEqual(73,_73.BinaryToLong());
+            Assert.AreEqual(68719476735, max.BinaryToLong());
+        }
+        [TestMethod]
+        public void PuzzleDay14_1_ShouldConvertIntToBinary36()
+        {
+            long l0 = 0;
+            long l11 = 11;
+            long l73 = 73;
+            string _0 = "000000000000000000000000000000000000";
+            string _11 = "000000000000000000000000000000001011";
+            string _73 = "000000000000000000000000000001001001";
+
+            Assert.AreEqual(_0, l0.ToBinaryString(36));
+            Assert.AreEqual(_11, l11.ToBinaryString(36));
+            Assert.AreEqual(_73, l73.ToBinaryString(36));
+        }
+        [TestMethod]
+        public void PuzzleDay14_1_ShouldParseValue()
+        {
+            Assert.AreEqual(586700041, Year2020.Day14.InputLine.ParseValue("mem[51810] = 586700041").Value);
+        }
+        [TestMethod]
+        public void PuzzleDay14_1_ShouldParseValueAddress()
+        {
+            Assert.AreEqual(51810, Year2020.Day14.InputLine.ParseAddress("mem[51810] = 586700041").Value);
+        }
+
+        [TestMethod]
+        public void PuzzleDay14_1_ShouldApplyMask()
+        {
+
+            Assert.AreEqual(0, applyMaskToValue(0, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX").Value);
+            Assert.AreEqual(101, applyMaskToValue(101, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX").Value);
+
+            Assert.AreEqual(64, applyMaskToValue(0, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X").Value);
+        }
+        private Year2020.Day14.MemoryValue applyMaskToValue(int value, string mask)
+        {
+            var v = new Year2020.Day14.MemoryValue(value);
+            var m = new Year2020.Day14.Mask(mask);
+            v = m.ApplyOn(v);
+            return v;
         }
 
         #endregion

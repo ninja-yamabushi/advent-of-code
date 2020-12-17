@@ -12,6 +12,10 @@ namespace AdventOfCode.Common
         {
             return source.Skip(startIndex).Take(lenght).ToArray();
         }
+        public static T[] Subset<T>(this T[] source, int startIndex)
+        {
+            return source.Skip(startIndex).ToArray();
+        }
 
         public static T[] Sort<T>(this T[] source, SortOrder order = SortOrder.Ascending)
         {

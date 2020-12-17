@@ -13,6 +13,8 @@ namespace AdventOfCode.App
 
         private void btnSolve_Click(object sender, EventArgs e)
         {
+            txtOutput.Clear();
+
             using (this.UseCursor(Cursors.WaitCursor))
             {
                 IPuzzle solver = new PuzzleFactory().Create(CurrentYear, CurrentDay, CurrentProblem);

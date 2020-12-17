@@ -1132,5 +1132,77 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_12_01_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1000511
+        ///29,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,37,x,x,x,x,x,409,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,17,13,19,x,x,x,23,x,x,x,x,x,x,x,353,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,41.
+        /// </summary>
+        internal static string _2020_13_01 {
+            get {
+                return ResourceManager.GetString("2020_13_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 939
+        ///7,13,x,x,59,x,31,19.
+        /// </summary>
+        internal static string _2020_13_01_example {
+            get {
+                return ResourceManager.GetString("2020_13_01_example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mask = X10X11X1000101X1XX001100001X101X0111
+        ///mem[27041] = 56559
+        ///mem[43069] = 56082467
+        ///mem[55125] = 25536
+        ///mem[13313] = 3968
+        ///mask = 0X01110110X10101X01100110000X0X010X0
+        ///mem[51810] = 586700041
+        ///mem[5546] = 73582083
+        ///mem[64563] = 1709385
+        ///mask = X10X1X01000X1XXX1011010X0101001X1100
+        ///mem[55081] = 164951
+        ///mem[57902] = 941479
+        ///mem[64412] = 168227
+        ///mem[38991] = 7285
+        ///mem[32442] = 4026389
+        ///mem[13462] = 11389
+        ///mask = 100XX0010X000001X1X1000110011X000011
+        ///mem[30898] = 16273
+        ///mem[58759] = 129155
+        ///mem[32283] = 1627 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_14_01 {
+            get {
+                return ResourceManager.GetString("2020_14_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+        ///mem[8] = 11
+        ///mem[7] = 101
+        ///mem[8] = 0.
+        /// </summary>
+        internal static string _2020_14_01_example {
+            get {
+                return ResourceManager.GetString("2020_14_01_example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mask = 000000000000000000000000000000X1001X
+        ///mem[42] = 100
+        ///mask = 00000000000000000000000000000000X0XX
+        ///mem[26] = 1.
+        /// </summary>
+        internal static string _2020_14_02_example {
+            get {
+                return ResourceManager.GetString("2020_14_02_example", resourceCulture);
+            }
+        }
     }
 }

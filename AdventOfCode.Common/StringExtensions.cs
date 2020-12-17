@@ -26,5 +26,22 @@ namespace AdventOfCode.Common
         {
             return source.SplitByLine().Select(s => long.Parse(s)).ToArray();
         }
+
+        public static bool IsNumeric(this string source)
+        {
+            return source.Count(c => !char.IsDigit(c)) == 0;
+        }
+
+        public static long BinaryToLong(this string source)
+        {
+            return Convert.ToInt64(source, 2);
+        }
+
+        public static string ReplaceAt(this string source, int index, char newChar)
+        {
+            var chars = source.ToCharArray();
+            chars[index] = newChar;
+            return new string(chars);
+        }
     }
 }

@@ -17,5 +17,14 @@ namespace AdventOfCode.Common
         {
             return Math.Abs(source);
         }
+
+        public static string ToBinaryString(this long source, int minLenght = 1)
+        {
+            return Convert.ToString(source, 2).PadLeft(minLenght, '0');
+        }
+        public static string ToBinaryString(this int source, int minLenght = 1)
+        {
+            return Convert.ToString(source, 2).PadLeft(minLenght, '0');
+        }
     }
 }
