@@ -1,13 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode.Common
 {
     public enum SortOrder { Ascending, Descending }
 
+    public static class ListExtensions
+    {
+        public static List<T> Subset<T>(this List<T> source, int startIndex, int lenght)
+        {
+            return source.Skip(startIndex).Take(lenght).ToList();
+        }
+    }
+
     public static class ArrayExtensions
     {
-        
         public static T[] Subset<T>(this T[] source, int startIndex, int lenght)
         {
             return source.Skip(startIndex).Take(lenght).ToArray();
