@@ -18,6 +18,10 @@ namespace AdventOfCode.Solutions.Tests
         private int year = 2020;
         private IPuzzle subject;
 
+        //Day 16
+        [DataRow(16, 1, "2020_16_01_example", "71")]
+        [DataRow(16, 1, "2020_16_01", "21081")]
+        [DataRow(16, 2, "2020_16_01", "314360510573")]
         //Day 15
         [DataRow(15, 1, "0,3,6", "436", InputTypes.Value)]
         [DataRow(15, 1, "1,3,2", "1", InputTypes.Value)]
@@ -27,13 +31,6 @@ namespace AdventOfCode.Solutions.Tests
         [DataRow(15, 1, "3,2,1", "438", InputTypes.Value)]
         [DataRow(15, 1, "3,1,2", "1836", InputTypes.Value)]
         [DataRow(15, 1, "0,1,4,13,15,12,16", "1665", InputTypes.Value)]
-        [DataRow(15, 2, "0,3,6", "175594", InputTypes.Value)]
-        [DataRow(15, 2, "1,3,2", "2578", InputTypes.Value)]
-        [DataRow(15, 2, "2,1,3", "3544142", InputTypes.Value)]
-        [DataRow(15, 2, "1,2,3", "261214", InputTypes.Value)]
-        [DataRow(15, 2, "2,3,1", "6895259", InputTypes.Value)]
-        [DataRow(15, 2, "3,2,1", "18", InputTypes.Value)]
-        [DataRow(15, 2, "3,1,2", "362", InputTypes.Value)]
         //Day 14
         [DataRow(14, 1, "2020_14_01_example", "165")]
         [DataRow(14, 1, "2020_14_01", "13727901897109")]
@@ -129,8 +126,15 @@ namespace AdventOfCode.Solutions.Tests
         }
 
 
-
+        [DataRow(15, 2, "0,3,6", "175594", InputTypes.Value)]
+        [DataRow(15, 2, "1,3,2", "2578", InputTypes.Value)]
+        [DataRow(15, 2, "2,1,3", "3544142", InputTypes.Value)]
+        [DataRow(15, 2, "1,2,3", "261214", InputTypes.Value)]
+        [DataRow(15, 2, "2,3,1", "6895259", InputTypes.Value)]
+        [DataRow(15, 2, "3,2,1", "18", InputTypes.Value)]
+        [DataRow(15, 2, "3,1,2", "362", InputTypes.Value)]
         [DataRow(15, 2, "0,1,4,13,15,12,16", "16439", InputTypes.Value)]
+
         //[DataRow(13, 2, "2020_13_01", "-1")]
         //[DataRow(10, 2, "2020_10_01", "-1")]
         [DataTestMethod]
@@ -145,17 +149,17 @@ namespace AdventOfCode.Solutions.Tests
         [TestMethod]
         public void PuzzleDay04_2_ComplexRuleShouldWork()
         {
-            IRules r1 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)));
+            IRule r1 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)));
             Assert.IsTrue(r1.ValidateFor("160cm"));
 
-            IRules r2 = new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2)));
+            IRule r2 = new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2)));
             Assert.IsTrue(r2.ValidateFor("60in"));
 
-            IRules r3 = r1.Or(r2);
+            IRule r3 = r1.Or(r2);
             Assert.IsTrue(r3.ValidateFor("160cm"));
             Assert.IsTrue(r3.ValidateFor("60in"));
 
-            IRules r4 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)))
+            IRule r4 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)))
                 .Or(new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2))));
             Assert.IsTrue(r4.ValidateFor("160cm"));
             Assert.IsTrue(r4.ValidateFor("60in"));

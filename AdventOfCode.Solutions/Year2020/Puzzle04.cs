@@ -115,11 +115,11 @@ namespace AdventOfCode.Solutions.Year2020
         #region " Implementation "
 
         public string Name { get; }
-        private readonly IRules rules;
+        private readonly IRule rules;
 
         public bool Required { get; }
 
-        private PassportField(string name, IRules rules)
+        private PassportField(string name, IRule rules)
         {
             this.Name = name;
             this.rules = rules;

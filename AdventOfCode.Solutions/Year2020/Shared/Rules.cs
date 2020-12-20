@@ -1,72 +1,99 @@
 ﻿using System;
+using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2020.Shared
 {
     public static class RuleExtensions
     {
-        public static IRules And(this IRules source, IRules rule)
+        public static IRule And(this IRule source, IRule rule)
         {
             return new AndRuleAgregator(new[] { source, rule });
         }
 
-        public static IRules Or(this IRules source, IRules rule)
+        public static IRule Or(this IRule source, IRule rule)
         {
             return new OrRuleAgregator(new[] { source, rule });
         }
 
-        public static IRules With(this IRules source, Func<string, string> manipulation)
+        public static IRule With(this IRule source, Func<string, string> manipulation)
         {
             return new ModifiedInputPassthru(source, manipulation);
         }
     }
 
-    public interface IRules
+    public interface IRule
     {
         bool ValidateFor(string input);
     }
 
-    public class AndRuleAgregator : IRules
+    public class AndRuleAgregator : IRule
     {
-        private readonly IRules[] rules;
+        private readonly IRule[] rules;
 
-        public AndRuleAgregator(IRules[] rules)
+        public AndRuleAgregator(IRule[] rules)
         {
             this.rules = rules;
         }
 
         public virtual bool ValidateFor(string input)
         {
-            foreach (IRules rule in rules)
+            foreach (IRule rule in rules)
                 if (!rule.ValidateFor(input))
                     return false;
             return true;
         }
+
+        public override string ToString()
+        {
+            var text = "";
+            foreach (var rule in rules)
+            {
+                if (!string.IsNullOrEmpty(text))
+                    text += " AND ";
+                text += rule.ToString();
+            }
+
+            return $"(" + text + ")";
+        }
     }
 
-    public class OrRuleAgregator : IRules
+    public class OrRuleAgregator : IRule
     {
-        private readonly IRules[] rules;
+        private readonly IRule[] rules;
 
-        public OrRuleAgregator(IRules[] rules)
+        public OrRuleAgregator(IRule[] rules)
         {
             this.rules = rules;
         }
 
         public virtual bool ValidateFor(string input)
         {
-            foreach (IRules rule in rules)
+            foreach (IRule rule in rules)
                 if (rule.ValidateFor(input))
                     return true;
             return false;
         }
+
+        public override string ToString()
+        {
+            var text = "";
+            foreach (var rule in rules)
+            {
+                if (!string.IsNullOrEmpty(text))
+                    text += " OR ";
+                text += rule.ToString();
+            }
+
+            return $"("+text+")";
+        }
     }
 
-    public class ModifiedInputPassthru : IRules
+    public class ModifiedInputPassthru : IRule
     {
-        private readonly IRules rule;
+        private readonly IRule rule;
         private readonly Func<string, string> manipulation;
 
-        public ModifiedInputPassthru(IRules rule, Func<string,string> manipulation)
+        public ModifiedInputPassthru(IRule rule, Func<string,string> manipulation)
         {
             this.rule = rule;
             this.manipulation = manipulation;
@@ -79,7 +106,7 @@ namespace AdventOfCode.Solutions.Year2020.Shared
     }
 
 
-    public class AlwaysTrueRule : IRules
+    public class AlwaysTrueRule : IRule
     {
         public bool ValidateFor(string input)
         {
@@ -87,7 +114,7 @@ namespace AdventOfCode.Solutions.Year2020.Shared
         }
     }
 
-    public class LengthRule : IRules
+    public class LengthRule : IRule
     {
         private readonly int length;
 
@@ -100,7 +127,7 @@ namespace AdventOfCode.Solutions.Year2020.Shared
             return input.Length == length;
         }
     }
-    public class DigitRule : IRules
+    public class DigitRule : IRule
     {
         public bool ValidateFor(string input)
         {
@@ -110,7 +137,7 @@ namespace AdventOfCode.Solutions.Year2020.Shared
             return true;
         }
     }
-    public class LetterRule : IRules
+    public class LetterRule : IRule
     {
         public bool ValidateFor(string input)
         {
@@ -120,7 +147,7 @@ namespace AdventOfCode.Solutions.Year2020.Shared
             return true;
         }
     }
-    public class LetterOrDigitRule : IRules
+    public class LetterOrDigitRule : IRule
     {
         public bool ValidateFor(string input)
         {
@@ -130,9 +157,9 @@ namespace AdventOfCode.Solutions.Year2020.Shared
             return true;
         }
     }
-    public class DigitBetweenRule : IRules
+    public class DigitBetweenRule : IRule
     {
-        private readonly IRules prerequisites;
+        private readonly IRule prerequisites;
         private readonly int min;
         private readonly int max;
 
@@ -150,8 +177,13 @@ namespace AdventOfCode.Solutions.Year2020.Shared
             var value = int.Parse(input);
             return (value >= min && value <= max);
         }
+
+        public override string ToString()
+        {
+            return $"between {min} and {max}";
+        }
     }
-    public class ChoiceRule : IRules
+    public class ChoiceRule : IRule
     {
         private readonly string[] possibilities;
 
@@ -167,7 +199,7 @@ namespace AdventOfCode.Solutions.Year2020.Shared
             return false;
         }
     }
-    public class StartsWithRule : IRules
+    public class StartsWithRule : IRule
     {
         private readonly string prefix;
 
@@ -180,7 +212,7 @@ namespace AdventOfCode.Solutions.Year2020.Shared
             return input.StartsWith(prefix);
         }
     }
-    public class EndsWithRule : IRules
+    public class EndsWithRule : IRule
     {
         private readonly string suffix;
 

@@ -1204,5 +1204,68 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_14_02_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to departure location: 26-715 or 727-972
+        ///departure station: 45-164 or 175-960
+        ///departure platform: 43-247 or 270-972
+        ///departure track: 25-306 or 330-949
+        ///departure date: 26-635 or 660-961
+        ///departure time: 42-773 or 793-961
+        ///arrival location: 28-928 or 943-952
+        ///arrival station: 36-593 or 613-966
+        ///arrival platform: 33-280 or 297-951
+        ///arrival track: 44-358 or 371-974
+        ///class: 39-815 or 839-955
+        ///duration: 39-573 or 589-959
+        ///price: 49-846 or 865-962
+        ///route: 30-913 or 924-954
+        ///row: 29-865 or 890-965
+        ///seat: 44-667 or [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_16_01 {
+            get {
+                return ResourceManager.GetString("2020_16_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to class: 1-3 or 5-7
+        ///row: 6-11 or 33-44
+        ///seat: 13-40 or 45-50
+        ///
+        ///your ticket:
+        ///7,1,14
+        ///
+        ///nearby tickets:
+        ///7,3,47
+        ///40,4,50
+        ///55,2,20
+        ///38,6,12.
+        /// </summary>
+        internal static string _2020_16_01_example {
+            get {
+                return ResourceManager.GetString("2020_16_01_example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to class: 0-1 or 4-19
+        ///row: 0-5 or 8-19
+        ///seat: 0-13 or 16-19
+        ///
+        ///your ticket:
+        ///11,12,13
+        ///
+        ///nearby tickets:
+        ///3,9,18
+        ///15,1,5
+        ///5,14,9.
+        /// </summary>
+        internal static string _2020_16_02_example {
+            get {
+                return ResourceManager.GetString("2020_16_02_example", resourceCulture);
+            }
+        }
     }
 }
