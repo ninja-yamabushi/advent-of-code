@@ -3,7 +3,6 @@ using AdventOfCode.Solutions.Year2020;
 using AdventOfCode.Solutions.Year2020.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace AdventOfCode.Solutions.Tests
 {
@@ -17,6 +16,13 @@ namespace AdventOfCode.Solutions.Tests
 
         private int year = 2020;
         private IPuzzle subject;
+
+
+        #region " all solutions "
+
+        //Day17
+        [DataRow(17, 1, "2020_17_01_example", "112")]
+        [DataRow(17, 1, "2020_17_01", "315")]
 
         //Day 16
         [DataRow(16, 1, "2020_16_01_example", "71")]
@@ -143,6 +149,8 @@ namespace AdventOfCode.Solutions.Tests
         {
             ShouldSolvePuzzles(day, challenge, input, expected, inputType);
         }
+
+        #endregion
 
         #region "Day 4"
 
@@ -305,9 +313,9 @@ F11";
             string _73 = "000000000000000000000000000001001001";
             string max = "111111111111111111111111111111111111";
 
-            Assert.AreEqual(0, _0.BinaryToLong()) ;
+            Assert.AreEqual(0, _0.BinaryToLong());
             Assert.AreEqual(11, _11.BinaryToLong());
-            Assert.AreEqual(73,_73.BinaryToLong());
+            Assert.AreEqual(73, _73.BinaryToLong());
             Assert.AreEqual(68719476735, max.BinaryToLong());
         }
         [TestMethod]
@@ -352,6 +360,147 @@ F11";
             return v;
         }
 
+        #endregion
+
+        #region "Day 17"
+
+        [TestMethod]
+        public void PuzzleDay17_1_CubeCoordinateShouldBeReadable()
+        {
+            var coordinate = new Year2020.Day17.CubeCoordinate(2, 2, 2);
+            Assert.AreEqual("00002,00002,00002", coordinate.ToString());
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_ShouldReturnAllNeighbors()
+        {
+            Year2020.Day17.CubeCoordinate[] expected = new[]
+            {
+                //top of cube back
+                new Year2020.Day17.CubeCoordinate(1,1,1),
+                new Year2020.Day17.CubeCoordinate(2,1,1),
+                new Year2020.Day17.CubeCoordinate(3,1,1),
+                //top of cube center
+                new Year2020.Day17.CubeCoordinate(1,1,2),
+                new Year2020.Day17.CubeCoordinate(2,1,2),
+                new Year2020.Day17.CubeCoordinate(3,1,2),
+                //top of cube front
+                new Year2020.Day17.CubeCoordinate(1,1,3),
+                new Year2020.Day17.CubeCoordinate(2,1,3),
+                new Year2020.Day17.CubeCoordinate(3,1,3),
+                //bottom of cube back
+                new Year2020.Day17.CubeCoordinate(1,3,1),
+                new Year2020.Day17.CubeCoordinate(2,3,1),
+                new Year2020.Day17.CubeCoordinate(3,3,1),
+                //bottom of cube center
+                new Year2020.Day17.CubeCoordinate(1,3,2),
+                new Year2020.Day17.CubeCoordinate(2,3,2),
+                new Year2020.Day17.CubeCoordinate(3,3,2),
+                //bottom of cube front
+                new Year2020.Day17.CubeCoordinate(1,3,3),
+                new Year2020.Day17.CubeCoordinate(2,3,3),
+                new Year2020.Day17.CubeCoordinate(3,3,3),
+                //front of cube center
+                new Year2020.Day17.CubeCoordinate(1,2,3),
+                new Year2020.Day17.CubeCoordinate(2,2,3),
+                new Year2020.Day17.CubeCoordinate(3,2,3),
+                //back of cube center
+                new Year2020.Day17.CubeCoordinate(1,2,1),
+                new Year2020.Day17.CubeCoordinate(2,2,1),
+                new Year2020.Day17.CubeCoordinate(3,2,1),
+                //left of cube
+                new Year2020.Day17.CubeCoordinate(1,2,2),
+                //right of cube
+                new Year2020.Day17.CubeCoordinate(3,2,2)
+            };
+
+            var coordinate = new Year2020.Day17.CubeCoordinate(2, 2, 2);
+            var actual = coordinate.GetNeighbors();
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_ShouldReturnAllNeighborsWithNegatives()
+        {
+            Year2020.Day17.CubeCoordinate[] expected = new[]
+            {
+                //top of cube back
+                new Year2020.Day17.CubeCoordinate(-1,-1,-1),
+                new Year2020.Day17.CubeCoordinate(0,-1,-1),
+                new Year2020.Day17.CubeCoordinate(1,-1,-1),
+                //top of cube center
+                new Year2020.Day17.CubeCoordinate(-1,-1,0),
+                new Year2020.Day17.CubeCoordinate(0,-1,0),
+                new Year2020.Day17.CubeCoordinate(1,-1,0),
+                //top of cube front
+                new Year2020.Day17.CubeCoordinate(-1,-1,1),
+                new Year2020.Day17.CubeCoordinate(0,-1,1),
+                new Year2020.Day17.CubeCoordinate(1,-1,1),
+                //bottom of cube back
+                new Year2020.Day17.CubeCoordinate(-1,1,-1),
+                new Year2020.Day17.CubeCoordinate(0,1,-1),
+                new Year2020.Day17.CubeCoordinate(1,1,-1),
+                //bottom of cube center
+                new Year2020.Day17.CubeCoordinate(-1,1,0),
+                new Year2020.Day17.CubeCoordinate(0,1,0),
+                new Year2020.Day17.CubeCoordinate(1,1,0),
+                //bottom of cube front
+                new Year2020.Day17.CubeCoordinate(-1,1,1),
+                new Year2020.Day17.CubeCoordinate(0,1,1),
+                new Year2020.Day17.CubeCoordinate(1,1,1),
+                //front of cube center
+                new Year2020.Day17.CubeCoordinate(-1,0,1),
+                new Year2020.Day17.CubeCoordinate(0,0,1),
+                new Year2020.Day17.CubeCoordinate(1,0,1),
+                //back of cube center
+                new Year2020.Day17.CubeCoordinate(-1,0,-1),
+                new Year2020.Day17.CubeCoordinate(0,0,-1),
+                new Year2020.Day17.CubeCoordinate(1,0,-1),
+                //left of cube
+                new Year2020.Day17.CubeCoordinate(-1,0,0),
+                //right of cube
+                new Year2020.Day17.CubeCoordinate(1,0,0)
+            };
+
+            var coordinate = new Year2020.Day17.CubeCoordinate(0, 0, 0);
+            var actual = coordinate.GetNeighbors();
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_ShouldIncreaseBoundaries()
+        {
+            var b = Year2020.Day17.DimensionBoundary.FromSize(3);
+            b.Min.Should().Be(0);
+            b.Max.Should().Be(2);
+            b.Length.Should().Be(3);
+
+            b.Increase(2);
+            b.Min.Should().Be(0);
+            b.Max.Should().Be(4);
+            b.Length.Should().Be(5);
+
+            b.IncreaseBothWays(1);
+            b.Min.Should().Be(-1);
+            b.Max.Should().Be(5);
+            b.Length.Should().Be(7);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_ShouldBeIncludedInBoundaryRange()
+        {
+            var b = Year2020.Day17.DimensionBoundary.FromSize(3);
+            b.Includes(-1).Should().BeFalse();
+            b.Includes(3).Should().BeFalse();
+            b.Includes(0).Should().BeTrue();
+            b.Includes(1).Should().BeTrue();
+            b.Includes(2).Should().BeTrue();
+
+            b = Year2020.Day17.DimensionBoundary.FromSize(3,true);
+            b.Includes(-2).Should().BeFalse();
+            b.Includes(2).Should().BeFalse();
+            b.Includes(-1).Should().BeTrue();
+            b.Includes(0).Should().BeTrue();
+            b.Includes(1).Should().BeTrue();
+        }
         #endregion
     }
 }

@@ -65,6 +65,15 @@
     <Compile Include="Year2020\Puzzle14.cs" />
     <Compile Include="Year2020\Puzzle15.cs" />
     <Compile Include="Year2020\Puzzle16.cs" />
+    <Compile Include="Year2020\Puzzle17.cs" />
+    <Compile Include="Year2020\Puzzle18.cs" />
+    <Compile Include="Year2020\Puzzle19.cs" />
+    <Compile Include="Year2020\Puzzle20.cs" />
+    <Compile Include="Year2020\Puzzle21.cs" />
+    <Compile Include="Year2020\Puzzle22.cs" />
+    <Compile Include="Year2020\Puzzle23.cs" />
+    <Compile Include="Year2020\Puzzle24.cs" />
+    <Compile Include="Year2020\Puzzle25.cs" />
     <Compile Include="Year2020\Shared\Rules.cs" />
     <Compile Include="Year2020\Puzzle01.cs" />
     <Compile Include="Year2020\Puzzle03.cs" />

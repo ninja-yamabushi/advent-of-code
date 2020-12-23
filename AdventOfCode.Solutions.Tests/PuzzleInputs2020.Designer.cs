@@ -1267,5 +1267,32 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_16_02_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ##.#...#
+        ///#..##...
+        ///....#..#
+        ///....####
+        ///#.#....#
+        ///###.#.#.
+        ///.#.#.#..
+        ///.#.....#.
+        /// </summary>
+        internal static string _2020_17_01 {
+            get {
+                return ResourceManager.GetString("2020_17_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .#.
+        ///..#
+        ///###.
+        /// </summary>
+        internal static string _2020_17_01_example {
+            get {
+                return ResourceManager.GetString("2020_17_01_example", resourceCulture);
+            }
+        }
     }
 }
