@@ -3,6 +3,7 @@ using AdventOfCode.Solutions.Year2020;
 using AdventOfCode.Solutions.Year2020.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace AdventOfCode.Solutions.Tests
 {
@@ -20,9 +21,8 @@ namespace AdventOfCode.Solutions.Tests
 
         #region " all solutions "
 
-        //Day17
-        [DataRow(17, 1, "2020_17_01_example", "112")]
-        [DataRow(17, 1, "2020_17_01", "315")]
+
+        //Day18
 
         //Day 16
         [DataRow(16, 1, "2020_16_01_example", "71")]
@@ -121,7 +121,7 @@ namespace AdventOfCode.Solutions.Tests
         [DataRow(1, 2, "2020_01_01_example", "241861950")]
         [DataRow(1, 2, "2020_01_01", "176647680")]
         [DataTestMethod]
-        public void ShouldSolvePuzzles(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
+        public void AllPuzzlesShouldSolve(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
         {
             subject = SolutionProvider.GetPuzzle(year, day, challenge);
 
@@ -132,6 +132,11 @@ namespace AdventOfCode.Solutions.Tests
         }
 
 
+
+        //Day17
+        [DataRow(17, 1, "2020_17_01_example", "112")]
+        [DataRow(17, 1, "2020_17_01", "315")]
+        //Day15
         [DataRow(15, 2, "0,3,6", "175594", InputTypes.Value)]
         [DataRow(15, 2, "1,3,2", "2578", InputTypes.Value)]
         [DataRow(15, 2, "2,1,3", "3544142", InputTypes.Value)]
@@ -140,14 +145,13 @@ namespace AdventOfCode.Solutions.Tests
         [DataRow(15, 2, "3,2,1", "18", InputTypes.Value)]
         [DataRow(15, 2, "3,1,2", "362", InputTypes.Value)]
         [DataRow(15, 2, "0,1,4,13,15,12,16", "16439", InputTypes.Value)]
-
         //[DataRow(13, 2, "2020_13_01", "-1")]
         //[DataRow(10, 2, "2020_10_01", "-1")]
         [DataTestMethod]
         [Ignore("Long running")]
-        public void ShouldSolveLongRunningPuzzles(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
+        public void AllPuzzlesShouldSolveLongRunning(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
         {
-            ShouldSolvePuzzles(day, challenge, input, expected, inputType);
+            AllPuzzlesShouldSolve(day, challenge, input, expected, inputType);
         }
 
         #endregion
@@ -368,7 +372,7 @@ F11";
         public void PuzzleDay17_1_CubeCoordinateShouldBeReadable()
         {
             var coordinate = new Year2020.Day17.CubeCoordinate(2, 2, 2);
-            Assert.AreEqual("00002,00002,00002", coordinate.ToString());
+            Assert.AreEqual("2,2,2", coordinate.ToString());
         }
         [TestMethod]
         public void PuzzleDay17_1_ShouldReturnAllNeighbors()
@@ -501,6 +505,126 @@ F11";
             b.Includes(0).Should().BeTrue();
             b.Includes(1).Should().BeTrue();
         }
+
+        [TestMethod]
+        public void PuzzleDay17_1_PocketDimensionShouldExpand()
+        {
+            var inputs = @"...
+.#.
+...";
+
+            var dimension = Year2020.Day17.PocketDimension.Parse(inputs);
+            dimension.GetAllCubes().Length.Should().Be(9);
+
+            dimension.Expand();
+
+            dimension.boundaries.Xs.Length.Should().Be(5);
+            dimension.boundaries.Ys.Length.Should().Be(5);
+            dimension.boundaries.Zs.Length.Should().Be(3);
+            dimension.GetAllCubes().Length.Should().Be(75);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_PocketDimensionShouldCompress()
+        {
+            var inputs = @"...
+.#.
+...";
+
+            var dimension = Year2020.Day17.PocketDimension.Parse(inputs);
+            dimension.Compress();
+
+            dimension.boundaries.Xs.Length.Should().Be(1);
+            dimension.boundaries.Ys.Length.Should().Be(1);
+            dimension.boundaries.Zs.Length.Should().Be(1);
+            dimension.GetAllCubes().Length.Should().Be(1);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_PocketDimensionShouldExpandAndCompress()
+        {
+            var inputs = @"...
+.#.
+...";
+
+            var dimension = Year2020.Day17.PocketDimension.Parse(inputs);
+            dimension.Expand();
+            dimension.Expand();
+            dimension.Expand();
+            dimension.Compress();
+
+            dimension.boundaries.Xs.Length.Should().Be(1);
+            dimension.boundaries.Ys.Length.Should().Be(1);
+            dimension.boundaries.Zs.Length.Should().Be(1);
+            dimension.GetAllCubes().Length.Should().Be(1);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_DimensionBoundariesShouldFindEdges()
+        {
+            var boundaries = new Year2020.Day17.DimensionBoundaries(
+                Year2020.Day17.DimensionBoundary.FromSize(3),
+                Year2020.Day17.DimensionBoundary.FromSize(3),
+                Year2020.Day17.DimensionBoundary.FromSize(3, true));
+
+            boundaries.IsEdge(1, 1, 0).Should().BeFalse();
+            //left
+            boundaries.IsEdge(0, 0, -1).Should().BeTrue();
+            boundaries.IsEdge(0, 1, -1).Should().BeTrue();
+            boundaries.IsEdge(0, 2, -1).Should().BeTrue();
+            boundaries.IsEdge(0, 0, 0).Should().BeTrue();
+            boundaries.IsEdge(0, 1, 0).Should().BeTrue();
+            boundaries.IsEdge(0, 2, 0).Should().BeTrue();
+            boundaries.IsEdge(0, 0, 1).Should().BeTrue();
+            boundaries.IsEdge(0, 1, 1).Should().BeTrue();
+            boundaries.IsEdge(0, 2, 1).Should().BeTrue();
+            //right
+            boundaries.IsEdge(2, 0, -1).Should().BeTrue();
+            boundaries.IsEdge(2, 1, -1).Should().BeTrue();
+            boundaries.IsEdge(2, 2, -1).Should().BeTrue();
+            boundaries.IsEdge(2, 0, 0).Should().BeTrue();
+            boundaries.IsEdge(2, 1, 0).Should().BeTrue();
+            boundaries.IsEdge(2, 2, 0).Should().BeTrue();
+            boundaries.IsEdge(2, 0, 1).Should().BeTrue();
+            boundaries.IsEdge(2, 1, 1).Should().BeTrue();
+            boundaries.IsEdge(2, 2, 1).Should().BeTrue();
+            //top
+            boundaries.IsEdge(1, 0, -1).Should().BeTrue();
+            boundaries.IsEdge(1, 0, 0).Should().BeTrue();
+            boundaries.IsEdge(2, 0, 1).Should().BeTrue();
+            //bottom
+            boundaries.IsEdge(1, 2, -1).Should().BeTrue();
+            boundaries.IsEdge(1, 2, 0).Should().BeTrue();
+            boundaries.IsEdge(2, 2, 1).Should().BeTrue();
+            //back
+            boundaries.IsEdge(1, 1, -1).Should().BeTrue();
+            //front
+            boundaries.IsEdge(1, 1, 1).Should().BeTrue();
+        }
+
+        //[TestMethod]
+        //public void MyTestMethod()
+        //{
+        //    var d = new Dictionary<Coordinate, string>();
+        //    var a = new Coordinate(2, 2, 2);
+
+        //    d.Add(a, "one");
+
+        //    d[a].Should().Be("one");
+
+        //    d[new Coordinate(2, 2, 2)].Should().Be("one");
+        //}
+
+        //public struct Coordinate
+        //{
+        //    public readonly int[] Points;
+        //    public Coordinate(params int[] values)
+        //    {
+        //        Points = values;
+        //    }
+
+        //    public int this[int index]
+        //    {
+        //        get { return Points[index]; }
+        //    }
+        //}
         #endregion
     }
 }

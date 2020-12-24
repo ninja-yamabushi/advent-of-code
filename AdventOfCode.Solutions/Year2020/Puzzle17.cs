@@ -64,13 +64,13 @@ namespace AdventOfCode.Solutions.Year2020.Day17
                         dimension[cube.Coordinate].Activate();
                 }
             }
-            dimension.AdjustBoundaries();
+            dimension.Compress();
         }
     }
 
     public class PocketDimension
     {
-        private readonly DimensionBoundaries boundaries;
+        public readonly DimensionBoundaries boundaries;
         private readonly List<ConwayCube> cubes;
 
         public PocketDimension(DimensionBoundaries boundaries)
@@ -109,9 +109,41 @@ namespace AdventOfCode.Solutions.Year2020.Day17
                             cubes.Add(new ConwayCube(new CubeCoordinate(x, y, z)));
         }
 
-        public void AdjustBoundaries()
+        private enum Wall { Left, Right, Top, Bottom, Back, Front }
+        private ConwayCube[] GetWall(Wall wall)
         {
+            switch (wall)
+            {
+                case Wall.Left: return cubes.Where(c => c.Coordinate.X == boundaries.Xs.Min).ToArray();
+                case Wall.Right: return cubes.Where(c => c.Coordinate.X == boundaries.Xs.Max).ToArray();
+                case Wall.Top: return cubes.Where(c => c.Coordinate.Y == boundaries.Ys.Min).ToArray();
+                case Wall.Bottom: return cubes.Where(c => c.Coordinate.Y == boundaries.Ys.Max).ToArray();
+                case Wall.Back: return cubes.Where(c => c.Coordinate.Z == boundaries.Zs.Min).ToArray();
+                case Wall.Front: return cubes.Where(c => c.Coordinate.Z == boundaries.Zs.Max).ToArray();
+            }
+            throw new ArgumentException(nameof(wall));
+        }
+        private bool RemoveWallIfNoActiveCube(Wall wall)
+        {
+            var wallCubes = GetWall(wall);
+            if (wallCubes.Where(c => c.IsActive).Count() == 0)
+            {
+                foreach (var cube in wallCubes)
+                    cubes.Remove(cube);
 
+                return true;
+            }
+            return false;
+        }
+
+        public void Compress()
+        {
+            while (RemoveWallIfNoActiveCube(Wall.Left)) { boundaries.Xs.ReduceMin(1); };
+            while (RemoveWallIfNoActiveCube(Wall.Right)) { boundaries.Xs.ReduceMax(1); };
+            while (RemoveWallIfNoActiveCube(Wall.Top)) { boundaries.Ys.ReduceMin(1); };
+            while (RemoveWallIfNoActiveCube(Wall.Bottom)) { boundaries.Ys.ReduceMax(1); };
+            while (RemoveWallIfNoActiveCube(Wall.Back)) { boundaries.Zs.ReduceMin(1); };
+            while (RemoveWallIfNoActiveCube(Wall.Front)) { boundaries.Zs.ReduceMax(1); };
         }
 
         private ConwayCube Find(CubeCoordinate coordinate, bool allowNulls = false)
@@ -145,7 +177,7 @@ namespace AdventOfCode.Solutions.Year2020.Day17
                 for (int y = boundaries.Ys.Min; y <= boundaries.Ys.Max; y++)
                 {
                     for (int x = boundaries.Xs.Min; x <= boundaries.Xs.Max; x++)
-                        result.Append(this[new CubeCoordinate(x, y, z)].ToString());
+                        result.Append(Find(new CubeCoordinate(x, y, z), true).ToString());
                     result.AppendLine();
                 }
             }
@@ -195,7 +227,7 @@ namespace AdventOfCode.Solutions.Year2020.Day17
 
         public bool IsEdge(int x, int y, int z)
         {
-            return (Xs.IsMinOrMax(x) && Ys.IsMinOrMax(y) && Zs.IsMinOrMax(z));
+            return (Xs.IsMinOrMax(x) || Ys.IsMinOrMax(y) || Zs.IsMinOrMax(z));
         }
     }
 
@@ -240,6 +272,14 @@ namespace AdventOfCode.Solutions.Year2020.Day17
             Min -= value;
             Max += value;
         }
+        public void ReduceMin(int value)
+        {
+            Min += value;
+        }
+        public void ReduceMax(int value)
+        {
+            Max -= value;
+        }
 
         public override string ToString()
         {
@@ -282,6 +322,7 @@ namespace AdventOfCode.Solutions.Year2020.Day17
         {
             return $"{X},{Y},{Z}";
         }
+
     }
 
     public class ConwayCube
