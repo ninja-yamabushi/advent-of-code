@@ -1,5 +1,6 @@
 ﻿using AdventOfCode.Common;
 using AdventOfCode.Solutions.Year2020;
+using AdventOfCode.Solutions.Year2020.Day17;
 using AdventOfCode.Solutions.Year2020.Shared;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -136,19 +137,23 @@ namespace AdventOfCode.Solutions.Tests
         //Day17
         [DataRow(17, 1, "2020_17_01_example", "112")]
         [DataRow(17, 1, "2020_17_01", "315")]
+        [DataRow(17, 2, "2020_17_01_example", "848")]
+        [DataRow(17, 2, "2020_17_01", "1520")]
         //Day15
-        [DataRow(15, 2, "0,3,6", "175594", InputTypes.Value)]
-        [DataRow(15, 2, "1,3,2", "2578", InputTypes.Value)]
-        [DataRow(15, 2, "2,1,3", "3544142", InputTypes.Value)]
-        [DataRow(15, 2, "1,2,3", "261214", InputTypes.Value)]
-        [DataRow(15, 2, "2,3,1", "6895259", InputTypes.Value)]
-        [DataRow(15, 2, "3,2,1", "18", InputTypes.Value)]
-        [DataRow(15, 2, "3,1,2", "362", InputTypes.Value)]
-        [DataRow(15, 2, "0,1,4,13,15,12,16", "16439", InputTypes.Value)]
+        //[DataRow(15, 2, "0,3,6", "175594", InputTypes.Value)]
+        //[DataRow(15, 2, "1,3,2", "2578", InputTypes.Value)]
+        //[DataRow(15, 2, "2,1,3", "3544142", InputTypes.Value)]
+        //[DataRow(15, 2, "1,2,3", "261214", InputTypes.Value)]
+        //[DataRow(15, 2, "2,3,1", "6895259", InputTypes.Value)]
+        //[DataRow(15, 2, "3,2,1", "18", InputTypes.Value)]
+        //[DataRow(15, 2, "3,1,2", "362", InputTypes.Value)]
+        //[DataRow(15, 2, "0,1,4,13,15,12,16", "16439", InputTypes.Value)]
+        //Day13
         //[DataRow(13, 2, "2020_13_01", "-1")]
+        //Day10
         //[DataRow(10, 2, "2020_10_01", "-1")]
         [DataTestMethod]
-        [Ignore("Long running")]
+        //[Ignore("Long running")]
         public void AllPuzzlesShouldSolveLongRunning(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
         {
             AllPuzzlesShouldSolve(day, challenge, input, expected, inputType);
@@ -367,111 +372,125 @@ F11";
         #endregion
 
         #region "Day 17"
+        private const int X = 0;
+        private const int Y = 1;
+        private const int Z = 2;
+        private const int W = 3;
 
         [TestMethod]
         public void PuzzleDay17_1_CubeCoordinateShouldBeReadable()
         {
-            var coordinate = new Year2020.Day17.CubeCoordinate(2, 2, 2);
-            Assert.AreEqual("2,2,2", coordinate.ToString());
+            new ArrayIndices(1, 2).ToString().Should().Be("1,2");
+            new ArrayIndices(1, 2, 3).ToString().Should().Be("1,2,3");
+            new ArrayIndices(1, 2, 3, 4).ToString().Should().Be("1,2,3,4");
         }
         [TestMethod]
-        public void PuzzleDay17_1_ShouldReturnAllNeighbors()
+        public void PuzzleDay17_1_CubeCoordinateShouldReturnAllNeighbors4D()
         {
-            Year2020.Day17.CubeCoordinate[] expected = new[]
+            var coordinate = new ArrayIndices(2, 2, 2, 2);
+            var actual = coordinate.GetNeighbors().Length;
+
+            actual.Should().Be(80);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_CubeCoordinateShouldReturnAllNeighbors()
+        {
+            ArrayIndices[] expected = new[]
             {
                 //top of cube back
-                new Year2020.Day17.CubeCoordinate(1,1,1),
-                new Year2020.Day17.CubeCoordinate(2,1,1),
-                new Year2020.Day17.CubeCoordinate(3,1,1),
+                new ArrayIndices(1,1,1),
+                new ArrayIndices(2,1,1),
+                new ArrayIndices(3,1,1),
                 //top of cube center
-                new Year2020.Day17.CubeCoordinate(1,1,2),
-                new Year2020.Day17.CubeCoordinate(2,1,2),
-                new Year2020.Day17.CubeCoordinate(3,1,2),
+                new ArrayIndices(1,1,2),
+                new ArrayIndices(2,1,2),
+                new ArrayIndices(3,1,2),
                 //top of cube front
-                new Year2020.Day17.CubeCoordinate(1,1,3),
-                new Year2020.Day17.CubeCoordinate(2,1,3),
-                new Year2020.Day17.CubeCoordinate(3,1,3),
+                new ArrayIndices(1,1,3),
+                new ArrayIndices(2,1,3),
+                new ArrayIndices(3,1,3),
                 //bottom of cube back
-                new Year2020.Day17.CubeCoordinate(1,3,1),
-                new Year2020.Day17.CubeCoordinate(2,3,1),
-                new Year2020.Day17.CubeCoordinate(3,3,1),
+                new ArrayIndices(1,3,1),
+                new ArrayIndices(2,3,1),
+                new ArrayIndices(3,3,1),
                 //bottom of cube center
-                new Year2020.Day17.CubeCoordinate(1,3,2),
-                new Year2020.Day17.CubeCoordinate(2,3,2),
-                new Year2020.Day17.CubeCoordinate(3,3,2),
+                new ArrayIndices(1,3,2),
+                new ArrayIndices(2,3,2),
+                new ArrayIndices(3,3,2),
                 //bottom of cube front
-                new Year2020.Day17.CubeCoordinate(1,3,3),
-                new Year2020.Day17.CubeCoordinate(2,3,3),
-                new Year2020.Day17.CubeCoordinate(3,3,3),
+                new ArrayIndices(1,3,3),
+                new ArrayIndices(2,3,3),
+                new ArrayIndices(3,3,3),
                 //front of cube center
-                new Year2020.Day17.CubeCoordinate(1,2,3),
-                new Year2020.Day17.CubeCoordinate(2,2,3),
-                new Year2020.Day17.CubeCoordinate(3,2,3),
+                new ArrayIndices(1,2,3),
+                new ArrayIndices(2,2,3),
+                new ArrayIndices(3,2,3),
                 //back of cube center
-                new Year2020.Day17.CubeCoordinate(1,2,1),
-                new Year2020.Day17.CubeCoordinate(2,2,1),
-                new Year2020.Day17.CubeCoordinate(3,2,1),
+                new ArrayIndices(1,2,1),
+                new ArrayIndices(2,2,1),
+                new ArrayIndices(3,2,1),
                 //left of cube
-                new Year2020.Day17.CubeCoordinate(1,2,2),
+                new ArrayIndices(1,2,2),
                 //right of cube
-                new Year2020.Day17.CubeCoordinate(3,2,2)
+                new ArrayIndices(3,2,2)
             };
 
-            var coordinate = new Year2020.Day17.CubeCoordinate(2, 2, 2);
+            var coordinate = new ArrayIndices(2, 2, 2);
+            var actual = coordinate.GetNeighbors();
+
+            actual.Length.Should().Be(26);
+            actual.Should().BeEquivalentTo(expected);
+        }
+        [TestMethod]
+        public void PuzzleDay17_1_CubeCoordinateShouldReturnAllNeighborsWithNegatives()
+        {
+            ArrayIndices[] expected = new[]
+            {
+                //top of cube back
+                new ArrayIndices(-1,-1,-1),
+                new ArrayIndices(0,-1,-1),
+                new ArrayIndices(1,-1,-1),
+                //top of cube center
+                new ArrayIndices(-1,-1,0),
+                new ArrayIndices(0,-1,0),
+                new ArrayIndices(1,-1,0),
+                //top of cube front
+                new ArrayIndices(-1,-1,1),
+                new ArrayIndices(0,-1,1),
+                new ArrayIndices(1,-1,1),
+                //bottom of cube back
+                new ArrayIndices(-1,1,-1),
+                new ArrayIndices(0,1,-1),
+                new ArrayIndices(1,1,-1),
+                //bottom of cube center
+                new ArrayIndices(-1,1,0),
+                new ArrayIndices(0,1,0),
+                new ArrayIndices(1,1,0),
+                //bottom of cube front
+                new ArrayIndices(-1,1,1),
+                new ArrayIndices(0,1,1),
+                new ArrayIndices(1,1,1),
+                //front of cube center
+                new ArrayIndices(-1,0,1),
+                new ArrayIndices(0,0,1),
+                new ArrayIndices(1,0,1),
+                //back of cube center
+                new ArrayIndices(-1,0,-1),
+                new ArrayIndices(0,0,-1),
+                new ArrayIndices(1,0,-1),
+                //left of cube
+                new ArrayIndices(-1,0,0),
+                //right of cube
+                new ArrayIndices(1,0,0)
+            };
+
+            var coordinate = new ArrayIndices(0, 0, 0);
             var actual = coordinate.GetNeighbors();
 
             actual.Should().BeEquivalentTo(expected);
         }
         [TestMethod]
-        public void PuzzleDay17_1_ShouldReturnAllNeighborsWithNegatives()
-        {
-            Year2020.Day17.CubeCoordinate[] expected = new[]
-            {
-                //top of cube back
-                new Year2020.Day17.CubeCoordinate(-1,-1,-1),
-                new Year2020.Day17.CubeCoordinate(0,-1,-1),
-                new Year2020.Day17.CubeCoordinate(1,-1,-1),
-                //top of cube center
-                new Year2020.Day17.CubeCoordinate(-1,-1,0),
-                new Year2020.Day17.CubeCoordinate(0,-1,0),
-                new Year2020.Day17.CubeCoordinate(1,-1,0),
-                //top of cube front
-                new Year2020.Day17.CubeCoordinate(-1,-1,1),
-                new Year2020.Day17.CubeCoordinate(0,-1,1),
-                new Year2020.Day17.CubeCoordinate(1,-1,1),
-                //bottom of cube back
-                new Year2020.Day17.CubeCoordinate(-1,1,-1),
-                new Year2020.Day17.CubeCoordinate(0,1,-1),
-                new Year2020.Day17.CubeCoordinate(1,1,-1),
-                //bottom of cube center
-                new Year2020.Day17.CubeCoordinate(-1,1,0),
-                new Year2020.Day17.CubeCoordinate(0,1,0),
-                new Year2020.Day17.CubeCoordinate(1,1,0),
-                //bottom of cube front
-                new Year2020.Day17.CubeCoordinate(-1,1,1),
-                new Year2020.Day17.CubeCoordinate(0,1,1),
-                new Year2020.Day17.CubeCoordinate(1,1,1),
-                //front of cube center
-                new Year2020.Day17.CubeCoordinate(-1,0,1),
-                new Year2020.Day17.CubeCoordinate(0,0,1),
-                new Year2020.Day17.CubeCoordinate(1,0,1),
-                //back of cube center
-                new Year2020.Day17.CubeCoordinate(-1,0,-1),
-                new Year2020.Day17.CubeCoordinate(0,0,-1),
-                new Year2020.Day17.CubeCoordinate(1,0,-1),
-                //left of cube
-                new Year2020.Day17.CubeCoordinate(-1,0,0),
-                //right of cube
-                new Year2020.Day17.CubeCoordinate(1,0,0)
-            };
-
-            var coordinate = new Year2020.Day17.CubeCoordinate(0, 0, 0);
-            var actual = coordinate.GetNeighbors();
-
-            actual.Should().BeEquivalentTo(expected);
-        }
-        [TestMethod]
-        public void PuzzleDay17_1_ShouldIncreaseBoundaries()
+        public void PuzzleDay17_1_DimensionBoundaryShouldIncreaseBoundaries()
         {
             var b = Year2020.Day17.DimensionBoundary.FromSize(3);
             b.Min.Should().Be(0);
@@ -489,7 +508,7 @@ F11";
             b.Length.Should().Be(7);
         }
         [TestMethod]
-        public void PuzzleDay17_1_ShouldBeIncludedInBoundaryRange()
+        public void PuzzleDay17_1_DimensionBoundaryShouldBeIncludedInBoundaryRange()
         {
             var b = Year2020.Day17.DimensionBoundary.FromSize(3);
             b.Includes(-1).Should().BeFalse();
@@ -498,7 +517,7 @@ F11";
             b.Includes(1).Should().BeTrue();
             b.Includes(2).Should().BeTrue();
 
-            b = Year2020.Day17.DimensionBoundary.FromSize(3,true);
+            b = Year2020.Day17.DimensionBoundary.FromSize(3, true);
             b.Includes(-2).Should().BeFalse();
             b.Includes(2).Should().BeFalse();
             b.Includes(-1).Should().BeTrue();
@@ -518,9 +537,9 @@ F11";
 
             dimension.Expand();
 
-            dimension.boundaries.Xs.Length.Should().Be(5);
-            dimension.boundaries.Ys.Length.Should().Be(5);
-            dimension.boundaries.Zs.Length.Should().Be(3);
+            dimension.boundaries[X].Length.Should().Be(5);
+            dimension.boundaries[Y].Length.Should().Be(5);
+            dimension.boundaries[Z].Length.Should().Be(3);
             dimension.GetAllCubes().Length.Should().Be(75);
         }
         [TestMethod]
@@ -533,9 +552,9 @@ F11";
             var dimension = Year2020.Day17.PocketDimension.Parse(inputs);
             dimension.Compress();
 
-            dimension.boundaries.Xs.Length.Should().Be(1);
-            dimension.boundaries.Ys.Length.Should().Be(1);
-            dimension.boundaries.Zs.Length.Should().Be(1);
+            dimension.boundaries[X].Length.Should().Be(1);
+            dimension.boundaries[Y].Length.Should().Be(1);
+            dimension.boundaries[Z].Length.Should().Be(1);
             dimension.GetAllCubes().Length.Should().Be(1);
         }
         [TestMethod]
@@ -551,9 +570,9 @@ F11";
             dimension.Expand();
             dimension.Compress();
 
-            dimension.boundaries.Xs.Length.Should().Be(1);
-            dimension.boundaries.Ys.Length.Should().Be(1);
-            dimension.boundaries.Zs.Length.Should().Be(1);
+            dimension.boundaries[X].Length.Should().Be(1);
+            dimension.boundaries[Y].Length.Should().Be(1);
+            dimension.boundaries[Z].Length.Should().Be(1);
             dimension.GetAllCubes().Length.Should().Be(1);
         }
         [TestMethod]
@@ -598,33 +617,55 @@ F11";
             //front
             boundaries.IsEdge(1, 1, 1).Should().BeTrue();
         }
+        [TestMethod]
+        public void PuzzleDay17_1_DictionaryShouldUseCoordinateAsKey()
+        {
 
-        //[TestMethod]
-        //public void MyTestMethod()
-        //{
-        //    var d = new Dictionary<Coordinate, string>();
-        //    var a = new Coordinate(2, 2, 2);
+            int a = "1,0,-1".GetHashCode();
+            int b = "1,0,-1".GetHashCode();
+            int c = "-1,0,1".GetHashCode();
 
-        //    d.Add(a, "one");
+            a.Should().Be(b);
+            a.Should().NotBe(c);
+        }
 
-        //    d[a].Should().Be("one");
+        [TestMethod]
+        public void PuzzleDay17_1_ShouldGetAllArrayIndices()
+        {
+            var inputs = new int[,,] { { { 0, 0 }, { 0, 0 } }, { { 0, 0 }, { 0, 0 } } };
 
-        //    d[new Coordinate(2, 2, 2)].Should().Be("one");
-        //}
+            int counter = 0;
+            foreach (var item in inputs.AllIndices())
+                counter++;
 
-        //public struct Coordinate
-        //{
-        //    public readonly int[] Points;
-        //    public Coordinate(params int[] values)
-        //    {
-        //        Points = values;
-        //    }
+            counter.Should().Be(8);
+        }
 
-        //    public int this[int index]
-        //    {
-        //        get { return Points[index]; }
-        //    }
-        //}
+        [DataRow(3, 3)]
+        [DataRow(9, 3, 3)]
+        [DataRow(18, 3, 3, 2)]
+        [DataTestMethod]
+        public void PuzzleDay17_1_ShouldGetAllPossibleIndices(int expected, params int[] boundaryQuantities)
+        {
+            var b = new List<DimensionBoundary>();
+            for (int i = 0; i < boundaryQuantities.Length; i++)
+                b.Add(DimensionBoundary.FromSize(boundaryQuantities[i]));
+
+            var inputs = new DimensionBoundaries(b.ToArray());
+            int actual = 0;
+            foreach (var item in inputs.AllIndices())
+                actual++;
+            actual.Should().Be(expected);
+        }
+
         #endregion
+    }
+
+    public static class DimensionBoundaryTestExtensions
+    {
+        public static bool IsEdge(this DimensionBoundaries source, int x, int y, int z)
+        {
+            return source.IsEdge(new ArrayIndices(x, y, z));
+        }
     }
 }

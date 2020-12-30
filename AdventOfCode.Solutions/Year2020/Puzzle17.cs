@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AdventOfCode.Solutions.Year2020.Day17;
 
 namespace AdventOfCode.Solutions.Year2020
@@ -23,20 +22,27 @@ namespace AdventOfCode.Solutions.Year2020
     {
         public string Solve(string inputs)
         {
-            throw new NotImplementedException();
+            var dimension = PocketDimension.Parse(inputs, 4);
+            var source = new EnergySource(dimension);
+            source.Boot(6);
+
+            return dimension.GetActiveCubes().Length.ToString();
         }
 
     }
 }
+
 namespace AdventOfCode.Solutions.Year2020.Day17
 {
     public class EnergySource
     {
         private PocketDimension dimension;
+
         public EnergySource(PocketDimension dimension)
         {
             this.dimension = dimension;
         }
+
         public void Boot(int numberOfCycles)
         {
             for (int count = 0; count < numberOfCycles; count++)
@@ -46,7 +52,7 @@ namespace AdventOfCode.Solutions.Year2020.Day17
         private void applyCycle()
         {
             dimension.Expand();
-            var snapshot = dimension.Clone();
+            var snapshot = dimension.GetSnapshot();
 
             var allCubes = snapshot.GetAllCubes();
             foreach (var cube in allCubes)
@@ -71,27 +77,25 @@ namespace AdventOfCode.Solutions.Year2020.Day17
     public class PocketDimension
     {
         public readonly DimensionBoundaries boundaries;
-        private readonly List<ConwayCube> cubes;
+        private readonly Dictionary<ArrayIndices, ConwayCube> cubes;
 
         public PocketDimension(DimensionBoundaries boundaries)
         {
             this.boundaries = boundaries;
-            cubes = new List<ConwayCube>();
+            cubes = new Dictionary<ArrayIndices, ConwayCube>();
 
-            for (int x = boundaries.Xs.Min; x <= boundaries.Xs.Max; x++)
-                for (int y = boundaries.Ys.Min; y <= boundaries.Ys.Max; y++)
-                    for (int z = boundaries.Zs.Min; z <= boundaries.Zs.Max; z++)
-                        cubes.Add(new ConwayCube(new CubeCoordinate(x, y, z)));
+            foreach (var indices in boundaries.AllIndices())
+                cubes.Add(new ConwayCube(indices));
         }
 
-        public ConwayCube this[CubeCoordinate coordinate]
+        public ConwayCube this[ArrayIndices coordinate]
         {
             get { return Find(coordinate); }
         }
 
-        public ConwayCube[] GetAllCubes() => cubes.ToArray();
+        public ConwayCube[] GetAllCubes() => cubes.Values.ToArray();
 
-        public ConwayCube[] GetActiveCubes() => cubes.Where(c => c.IsActive).ToArray();
+        public ConwayCube[] GetActiveCubes() => cubes.Values.Where(c => c.IsActive).ToArray();
 
         public ConwayCube[] GetNeighbors(ConwayCube cube)
         {
@@ -102,30 +106,23 @@ namespace AdventOfCode.Solutions.Year2020.Day17
         public void Expand()
         {
             boundaries.IncreaseBothWays(1);
-            for (int x = boundaries.Xs.Min; x <= boundaries.Xs.Max; x++)
-                for (int y = boundaries.Ys.Min; y <= boundaries.Ys.Max; y++)
-                    for (int z = boundaries.Zs.Min; z <= boundaries.Zs.Max; z++)
-                        if (boundaries.IsEdge(x, y, z))
-                            cubes.Add(new ConwayCube(new CubeCoordinate(x, y, z)));
+
+            var condition = new Func<ArrayIndices, bool>(value => boundaries.IsEdge(value));
+            foreach (var edgeIndices in boundaries.AllIndices(condition))
+                    cubes.Add(new ConwayCube(edgeIndices));
         }
 
-        private enum Wall { Left, Right, Top, Bottom, Back, Front }
-        private ConwayCube[] GetWall(Wall wall)
+        public enum Edge { Min, Max }
+
+        private ConwayCube[] GetWall(int boudaryIndex, Edge edge)
         {
-            switch (wall)
-            {
-                case Wall.Left: return cubes.Where(c => c.Coordinate.X == boundaries.Xs.Min).ToArray();
-                case Wall.Right: return cubes.Where(c => c.Coordinate.X == boundaries.Xs.Max).ToArray();
-                case Wall.Top: return cubes.Where(c => c.Coordinate.Y == boundaries.Ys.Min).ToArray();
-                case Wall.Bottom: return cubes.Where(c => c.Coordinate.Y == boundaries.Ys.Max).ToArray();
-                case Wall.Back: return cubes.Where(c => c.Coordinate.Z == boundaries.Zs.Min).ToArray();
-                case Wall.Front: return cubes.Where(c => c.Coordinate.Z == boundaries.Zs.Max).ToArray();
-            }
-            throw new ArgumentException(nameof(wall));
+            var value = edge == Edge.Min ? boundaries[boudaryIndex].Min : boundaries[boudaryIndex].Max;
+            return cubes.Values.Where(c => c.Coordinate[boudaryIndex] == value).ToArray();
         }
-        private bool RemoveWallIfNoActiveCube(Wall wall)
+
+        private bool RemoveWallIfNoActiveCube(int boundaryIndex, Edge edge)
         {
-            var wallCubes = GetWall(wall);
+            var wallCubes = GetWall(boundaryIndex, edge);
             if (wallCubes.Where(c => c.IsActive).Count() == 0)
             {
                 foreach (var cube in wallCubes)
@@ -138,27 +135,25 @@ namespace AdventOfCode.Solutions.Year2020.Day17
 
         public void Compress()
         {
-            while (RemoveWallIfNoActiveCube(Wall.Left)) { boundaries.Xs.ReduceMin(1); };
-            while (RemoveWallIfNoActiveCube(Wall.Right)) { boundaries.Xs.ReduceMax(1); };
-            while (RemoveWallIfNoActiveCube(Wall.Top)) { boundaries.Ys.ReduceMin(1); };
-            while (RemoveWallIfNoActiveCube(Wall.Bottom)) { boundaries.Ys.ReduceMax(1); };
-            while (RemoveWallIfNoActiveCube(Wall.Back)) { boundaries.Zs.ReduceMin(1); };
-            while (RemoveWallIfNoActiveCube(Wall.Front)) { boundaries.Zs.ReduceMax(1); };
+            for (int index = 0; index < boundaries.Count(); index++)
+            {
+                while (RemoveWallIfNoActiveCube(index, Edge.Min)) { boundaries[index].ReduceMin(1); };
+                while (RemoveWallIfNoActiveCube(index, Edge.Max)) { boundaries[index].ReduceMax(1); };
+            }
         }
 
-        private ConwayCube Find(CubeCoordinate coordinate, bool allowNulls = false)
+        private ConwayCube Find(ArrayIndices coordinate, bool allowNulls = false)
         {
-            var cube = cubes.Where(c => c.Coordinate.Is(coordinate)).FirstOrDefault();
+            cubes.TryGetValue(coordinate, out ConwayCube cube);
             if (cube == null && !allowNulls)
             {
                 cube = new ConwayCube(coordinate);
                 cubes.Add(cube);
             }
-
             return cube;
         }
 
-        public PocketDimension Clone()
+        public PocketDimension GetSnapshot()
         {
             var pd = new PocketDimension(boundaries);
             foreach (var cube in GetActiveCubes())
@@ -166,71 +161,123 @@ namespace AdventOfCode.Solutions.Year2020.Day17
             return pd;
         }
 
-        public override string ToString()
-        {
-            var result = new StringBuilder();
-
-            for (int z = boundaries.Zs.Min; z <= boundaries.Zs.Max; z++)
-            {
-                result.AppendLine();
-                result.AppendLine($"z={z}");
-                for (int y = boundaries.Ys.Min; y <= boundaries.Ys.Max; y++)
-                {
-                    for (int x = boundaries.Xs.Min; x <= boundaries.Xs.Max; x++)
-                        result.Append(Find(new CubeCoordinate(x, y, z), true).ToString());
-                    result.AppendLine();
-                }
-            }
-
-            return result.ToString();
-        }
-
-        public static PocketDimension Parse(string inputs)
+        public static PocketDimension Parse(string inputs, int numberOfDimensions = 3)
         {
             var lines = inputs.SplitByLine();
             var size = lines.Length;
 
-            var boundaries = new DimensionBoundaries(DimensionBoundary.FromSize(size), DimensionBoundary.FromSize(size), DimensionBoundary.FromSize(1, true));
-            var dimension = new PocketDimension(boundaries);
+            var boundaries = new List<DimensionBoundary> { DimensionBoundary.FromSize(size), DimensionBoundary.FromSize(size) };
+            if (numberOfDimensions >= 3) boundaries.Add(DimensionBoundary.FromSize(1, true));
+            if (numberOfDimensions >= 4) boundaries.Add(DimensionBoundary.FromSize(1, true));
+
+            var dimension = new PocketDimension(new DimensionBoundaries(boundaries.ToArray()));
 
             for (int x = 0; x < size; x++)
                 for (int y = 0; y < size; y++)
                 {
-                    var cube = new ConwayCube(new CubeCoordinate(x, y, 0), lines[y][x]);
+                    var c = numberOfDimensions == 3 ? new ArrayIndices(x, y, 0) : new ArrayIndices(x, y, 0, 0);
+                    var cube = new ConwayCube(c, lines[y][x]);
+
                     if (cube.IsActive)
                         dimension[cube.Coordinate].Activate();
                 }
 
             return dimension;
         }
+    }
 
+    public static class DictionaryOfConwayCubeExtensions
+    {
+        public static void Add(this Dictionary<ArrayIndices, ConwayCube> source, ConwayCube cube)
+        {
+            source.Add(cube.Coordinate, cube);
+        }
+        public static void Remove(this Dictionary<ArrayIndices, ConwayCube> source, ConwayCube cube)
+        {
+            source.Remove(cube.Coordinate);
+        }
     }
 
     public class DimensionBoundaries
     {
-        public DimensionBoundaries(DimensionBoundary Xs, DimensionBoundary Ys, DimensionBoundary Zs)
+        private DimensionBoundary[] boundaries;
+        public DimensionBoundaries(params DimensionBoundary[] boundaries)
         {
-            this.Xs = Xs;
-            this.Ys = Ys;
-            this.Zs = Zs;
+            this.boundaries = boundaries;
         }
-        public DimensionBoundary Xs { get; }
-        public DimensionBoundary Ys { get; }
-        public DimensionBoundary Zs { get; }
+
+        public DimensionBoundary this[int index] => boundaries[index];
+
+        public int Count() => boundaries.Length;
 
         public void IncreaseBothWays(int value)
         {
-            Xs.IncreaseBothWays(value);
-            Ys.IncreaseBothWays(value);
-            Zs.IncreaseBothWays(value);
+            foreach (var b in boundaries)
+                b.IncreaseBothWays(value);
         }
 
-        public bool IsEdge(int x, int y, int z)
+        public bool IsEdge(ArrayIndices coordinate)
         {
-            return (Xs.IsMinOrMax(x) || Ys.IsMinOrMax(y) || Zs.IsMinOrMax(z));
+            for (int index = 0; index < boundaries.Length; index++)
+                if (this[index].IsMinOrMax(coordinate[index]))
+                    return true;
+            return false;
+        }
+
+        public IEnumerable<ArrayIndices> AllIndices(Func<ArrayIndices, bool> condition = null)
+        {
+            int numberOfDimensions = boundaries.Length;
+            if (numberOfDimensions == 1)
+            {
+                for (int x = boundaries[0].Min; x <= boundaries[0].Max; x++)
+                {
+                    var result = new ArrayIndices(x);
+                    if (condition == null || condition(result))
+                        yield return result;
+                }
+            }
+            else
+            {
+                int[] coordinate = new int[numberOfDimensions];
+                int[] upperBounds = new int[numberOfDimensions];
+
+                for (int dimensionIndex = 0; dimensionIndex < numberOfDimensions; dimensionIndex++)
+                {
+                    coordinate[dimensionIndex] = boundaries[dimensionIndex].Min;
+                    upperBounds[dimensionIndex] = boundaries[dimensionIndex].Max;
+                }
+
+                int[] lowerBounds = (int[])coordinate.Clone();
+
+            Repeater:
+                {
+                    var result = new ArrayIndices(coordinate.ToArray());
+                    if (condition == null || condition(result))
+                        yield return result;
+
+                    for (int dimensionIndex = numberOfDimensions - 1; dimensionIndex >= 0; dimensionIndex--)
+                    {
+                        coordinate[dimensionIndex]++;
+                        if (coordinate[dimensionIndex] <= upperBounds[dimensionIndex])
+                            break;
+                        coordinate[dimensionIndex] = lowerBounds[dimensionIndex];
+                        if (dimensionIndex == 0)
+                            yield break;
+                    }
+                    goto Repeater;
+                }
+            }
+            yield break;
+        }
+
+        public static DimensionBoundaries FromPoint(ArrayIndices source)
+        {
+            var boundaries = new List<DimensionBoundary>();
+            for (int d = 0; d < source.Count(); d++)
+                boundaries.Add(DimensionBoundary.FromPoint(source[d]));
+            return new DimensionBoundaries(boundaries.ToArray());
         }
     }
-
     public class DimensionBoundary
     {
         private DimensionBoundary(int min, int max)
@@ -262,6 +309,10 @@ namespace AdventOfCode.Solutions.Year2020.Day17
                 return new DimensionBoundary(size / 2);
             return new DimensionBoundary(0, size - 1);
         }
+        public static DimensionBoundary FromPoint(int point)
+        {
+            return new DimensionBoundary(point, point);
+        }
 
         public void Increase(int value)
         {
@@ -287,42 +338,21 @@ namespace AdventOfCode.Solutions.Year2020.Day17
         }
     }
 
-    public class CubeCoordinate
+    public static class ArrayIndicesExtensions
     {
-        public CubeCoordinate(int x, int y, int z)
+        public static ArrayIndices[] GetNeighbors(this ArrayIndices source)
         {
-            X = x;
-            Y = y;
-            Z = z;
-        }
+            var boundaries = DimensionBoundaries.FromPoint(source);
+            boundaries.IncreaseBothWays(1);
 
-        public int X { get; }
-        public int Y { get; }
-        public int Z { get; }
+            var condition = new Func<ArrayIndices, bool>(value => !value.Is(source));
 
-        public bool Is(CubeCoordinate value)
-        {
-            return (value.X == X && value.Y == Y && value.Z == Z);
-        }
+            var result = new List<ArrayIndices>();
+            foreach (var indices in boundaries.AllIndices(condition))
+                result.Add(indices);
 
-        public CubeCoordinate[] GetNeighbors()
-        {
-            var result = new List<CubeCoordinate>();
-            for (int x = X - 1; x <= X + 1; x++)
-                for (int y = Y - 1; y <= Y + 1; y++)
-                    for (int z = Z - 1; z <= Z + 1; z++)
-                    {
-                        var cc = new CubeCoordinate(x, y, z);
-                        if (!cc.Is(this)) result.Add(cc);
-                    }
             return result.ToArray();
         }
-
-        public override string ToString()
-        {
-            return $"{X},{Y},{Z}";
-        }
-
     }
 
     public class ConwayCube
@@ -331,15 +361,16 @@ namespace AdventOfCode.Solutions.Year2020.Day17
         private const char STATE_INACTIVE = '.';
         private char state;
 
-        public ConwayCube(CubeCoordinate coordinate) : this(coordinate, STATE_INACTIVE)
+        public ConwayCube(ArrayIndices coordinate) : this(coordinate, STATE_INACTIVE)
         { }
-        public ConwayCube(CubeCoordinate coordinate, char state)
+        public ConwayCube(ArrayIndices coordinate, char state)
         {
             Coordinate = coordinate;
             this.state = state;
         }
 
-        public CubeCoordinate Coordinate { get; }
+        public ArrayIndices Coordinate { get; }
+
         public bool IsActive => state == STATE_ACTIVE;
 
         public void Activate() => state = STATE_ACTIVE;
