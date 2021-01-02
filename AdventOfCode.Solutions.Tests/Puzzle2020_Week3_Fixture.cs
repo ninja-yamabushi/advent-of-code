@@ -1,30 +1,33 @@
 ﻿using AdventOfCode.Common;
-using AdventOfCode.Solutions.Year2020;
 using AdventOfCode.Solutions.Year2020.Day17;
-using AdventOfCode.Solutions.Year2020.Shared;
+using AdventOfCode.Solutions.Year2020.Day18;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace AdventOfCode.Solutions.Tests
 {
-    [TestClass]
-    public class Puzzle2020Fixture
+    [TestClass] //Day 13 to 19
+    public class Puzzle2020_Week3_Fixture : BasePuzzle2020Fixture
     {
-        public enum InputTypes
-        {
-            Resource, Value
-        }
-
-        private int year = 2020;
-        private IPuzzle subject;
-
-
-        #region " all solutions "
-
+        //Day19
 
         //Day18
-
+        [DataRow(18, 1, "1 + 2 * 3 + 4 * 5 + 6", "71", InputTypes.Value)]
+        [DataRow(18, 1, "1 + (2 * 3) + (4 * (5 + 6))", "51", InputTypes.Value)]
+        [DataRow(18, 1, "2 * 3 + (4 * 5)", "26", InputTypes.Value)]
+        [DataRow(18, 1, "5 + (8 * 3 + 9 + 3 * 4 * 3)", "437", InputTypes.Value)]
+        [DataRow(18, 1, "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))", "12240", InputTypes.Value)]
+        [DataRow(18, 1, "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", "13632", InputTypes.Value)]
+        [DataRow(18, 1, "2020_18_01", "11004703763391")]
+        [DataRow(18, 2, "1 + 2 * 3 + 4 * 5 + 6", "231", InputTypes.Value)]
+        [DataRow(18, 2, "1 + (2 * 3) + (4 * (5 + 6))", "51", InputTypes.Value)]
+        [DataRow(18, 2, "2 * 3 + (4 * 5)", "46", InputTypes.Value)]
+        [DataRow(18, 2, "5 + (8 * 3 + 9 + 3 * 4 * 3)", "1445", InputTypes.Value)]
+        [DataRow(18, 2, "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))", "669060", InputTypes.Value)]
+        [DataRow(18, 2, "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2", "23340", InputTypes.Value)]
+        [DataRow(18, 2, "2020_18_01", "290726428573651")]
         //Day 16
         [DataRow(16, 1, "2020_16_01_example", "71")]
         [DataRow(16, 1, "2020_16_01", "21081")]
@@ -53,86 +56,11 @@ namespace AdventOfCode.Solutions.Tests
         [DataRow(13, 2, "0\r\n67,7,x,59,61", "1261476", InputTypes.Value)]
         [DataRow(13, 2, "0\r\n1789,37,47,1889", "1202161486", InputTypes.Value)]
         //[DataRow(13, 2, "2020_13_01", "-1")]
-        //Day 12
-        [DataRow(12, 1, "2020_12_01_example", "25")]
-        [DataRow(12, 1, "2020_12_01", "381")]
-        [DataRow(12, 2, "2020_12_01_example", "286")]
-        [DataRow(12, 2, "2020_12_01", "28591")]
-        //Day 11
-        [DataRow(11, 1, "2020_11_01_example", "37")]
-        [DataRow(11, 1, "2020_11_01", "2263")]
-        [DataRow(11, 2, "2020_11_01_example", "26")]
-        [DataRow(11, 2, "2020_11_01", "2002")]
-        //Day 10
-        [DataRow(10, 1, "2020_10_01_example1", "35")]
-        [DataRow(10, 1, "2020_10_01_example2", "220")]
-        [DataRow(10, 1, "2020_10_01", "2176")]
-        //[DataRow(10, 2, "2020_10_01_example1", "8")]
-        //[DataRow(10, 2, "2020_10_01_example2", "19208")]
-        //[DataRow(10, 2, "2020_10_01", "-1")]
-        //Day 9
-        [DataRow(9, 999, "2020_09_01_example", "127")]
-        [DataRow(9, 1, "2020_09_01", "542529149")]
-        [DataRow(9, 998, "2020_09_01_example", "62")]
-        [DataRow(9, 2, "2020_09_01", "75678618")]
-        //Day 8
-        [DataRow(8, 1, "2020_08_01_example", "5")]
-        [DataRow(8, 1, "2020_08_01", "1384")]
-        [DataRow(8, 2, "2020_08_01_example", "8")]
-        [DataRow(8, 2, "2020_08_01", "761")]
-        //Day 7
-        [DataRow(7, 1, "2020_07_01_example", "4")]
-        [DataRow(7, 1, "2020_07_01", "265")]
-        [DataRow(7, 2, "2020_07_01_example", "32")]
-        [DataRow(7, 2, "2020_07_02_example", "126")]
-        [DataRow(7, 2, "2020_07_01", "14177")]
-        //Day 6
-        [DataRow(6, 1, "2020_06_01_example", "11")]
-        [DataRow(6, 1, "2020_06_01", "6878")]
-        [DataRow(6, 2, "2020_06_01_example", "6")]
-        [DataRow(6, 2, "2020_06_01", "3464")]
-        //Day 5
-        [DataRow(5, 1, "FBFBBFFRLR", "357", InputTypes.Value)]
-        [DataRow(5, 1, "BFFFBBFRRR", "567", InputTypes.Value)]
-        [DataRow(5, 1, "FFFBBBFRRR", "119", InputTypes.Value)]
-        [DataRow(5, 1, "BBFFBBFRLL", "820", InputTypes.Value)]
-        [DataRow(5, 1, "2020_05_01_example", "820")]
-        [DataRow(5, 1, "2020_05_01", "874")]
-        [DataRow(5, 2, "2020_05_01", "594")]
-        //Day 4
-        [DataRow(4, 1, "2020_04_01_example", "2")]
-        [DataRow(4, 1, "2020_04_01", "190")]
-        [DataRow(4, 2, "2020_04_02_valid", "4")]
-        [DataRow(4, 2, "2020_04_02_invalid", "0")]
-        [DataRow(4, 2, "2020_04_02_mixed", "4")]
-        [DataRow(4, 2, "2020_04_01", "121")]
-        //Day 3
-        [DataRow(3, 1, "2020_03_01_example", "7")]
-        [DataRow(3, 1, "2020_03_01", "244")]
-        [DataRow(3, 2, "2020_03_01_example", "336")]
-        [DataRow(3, 2, "2020_03_01", "9406609920")]
-        //Day 2
-        [DataRow(2, 1, "2020_02_01_example", "2")]
-        [DataRow(2, 1, "2020_02_01", "418")]
-        [DataRow(2, 2, "2020_02_01_example", "1")]
-        [DataRow(2, 2, "2020_02_01", "616")]
-        //Day 1
-        [DataRow(1, 1, "2020_01_01_example", "514579")]
-        [DataRow(1, 1, "2020_01_01", "1019904")]
-        [DataRow(1, 2, "2020_01_01_example", "241861950")]
-        [DataRow(1, 2, "2020_01_01", "176647680")]
         [DataTestMethod]
         public void AllPuzzlesShouldSolve(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
         {
-            subject = SolutionProvider.GetPuzzle(year, day, challenge);
-
-            var inputs = (inputType == InputTypes.Resource) ? PuzzleInputs2020.ResourceManager.GetString(input) : input;
-            var actual = subject.Solve(inputs);
-
-            actual.Should().Be(expected);
+            solve(day, challenge, input, expected, inputType);
         }
-
-
 
         //Day17
         [DataRow(17, 1, "2020_17_01_example", "112")]
@@ -150,170 +78,25 @@ namespace AdventOfCode.Solutions.Tests
         //[DataRow(15, 2, "0,1,4,13,15,12,16", "16439", InputTypes.Value)]
         //Day13
         //[DataRow(13, 2, "2020_13_01", "-1")]
-        //Day10
-        //[DataRow(10, 2, "2020_10_01", "-1")]
         [DataTestMethod]
-        //[Ignore("Long running")]
+        [Ignore("Long running")]
         public void AllPuzzlesShouldSolveLongRunning(int day, int challenge, string input, string expected, InputTypes inputType = InputTypes.Resource)
         {
-            AllPuzzlesShouldSolve(day, challenge, input, expected, inputType);
+            solve(day, challenge, input, expected, inputType);
         }
+    }
 
-        #endregion
-
-        #region "Day 4"
-
-        [TestMethod]
-        public void PuzzleDay04_2_ComplexRuleShouldWork()
+    public static class DimensionBoundaryTestExtensions
+    {
+        public static bool IsEdge(this DimensionBoundaries source, int x, int y, int z)
         {
-            IRule r1 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)));
-            Assert.IsTrue(r1.ValidateFor("160cm"));
-
-            IRule r2 = new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2)));
-            Assert.IsTrue(r2.ValidateFor("60in"));
-
-            IRule r3 = r1.Or(r2);
-            Assert.IsTrue(r3.ValidateFor("160cm"));
-            Assert.IsTrue(r3.ValidateFor("60in"));
-
-            IRule r4 = new EndsWithRule("cm").And(new DigitBetweenRule(150, 193).With(input => input.Substring(0, input.Length - 2)))
-                .Or(new EndsWithRule("in").And(new DigitBetweenRule(59, 76).With(input => input.Substring(0, input.Length - 2))));
-            Assert.IsTrue(r4.ValidateFor("160cm"));
-            Assert.IsTrue(r4.ValidateFor("60in"));
+            return source.IsEdge(new ArrayIndices(x, y, z));
         }
+    }
 
-        #endregion
-
-        #region "Day 11"
-
-        [TestMethod]
-        public void PuzzleDay11_2_ShouldFindEightAdjascentSeats()
-        {
-            string inputs = @".......#.
-...#.....
-.#.......
-.........
-..#L....#
-....#....
-.........
-#........
-...#.....";
-
-            var area = new WaitingArea(inputs);
-            var place = area[3, 4];
-
-            Assert.IsTrue(place.IsSeat);
-            Assert.IsTrue(place.IsEmpty);
-
-            var adj = place.FindAdjacentOrVisibleSeats();
-
-            Assert.AreEqual(8, adj.Length);
-
-        }
-        [TestMethod]
-        public void PuzzleDay11_2_ShouldFindOneAdjascentSeats()
-        {
-            string inputs = @".............
-.L.L.#.#.#.#.
-.............";
-
-            var area = new WaitingArea(inputs);
-            var place = area[1, 1];
-
-            Assert.IsTrue(place.IsSeat);
-            Assert.IsTrue(place.IsEmpty);
-
-            var adj = place.FindAdjacentOrVisibleSeats();
-
-            Assert.AreEqual(1, adj.Length);
-
-        }
-        [TestMethod]
-        public void PuzzleDay11_2_ShouldFindNoEmptyAdjascentSeats()
-        {
-            string inputs = @".##.##.
-#.#.#.#
-##...##
-...L...
-##...##
-#.#.#.#
-.##.##.";
-
-            var area = new WaitingArea(inputs);
-            var place = area[3, 3];
-
-            Assert.IsTrue(place.IsSeat);
-            Assert.IsTrue(place.IsEmpty);
-
-            var adj = place.FindAdjacentOrVisibleSeats();
-
-            Assert.AreEqual(0, adj.Length);
-
-        }
-        #endregion
-
-        #region "Day 12"
-
-        //move, turn, keep going
-
-        [TestMethod]
-        public void PuzzleDay12_1_ShouldParseSingleAction()
-        {
-            string input = @"F10";
-
-            var action = NavigationAction.ParseSingle(input);
-
-            Assert.AreEqual("F : 10", action.ToString());
-        }
-        [TestMethod]
-        public void PuzzleDay12_1_ShouldParseActions()
-        {
-            string inputs = @"F10
-N3
-F7
-R90
-F11";
-
-            var actions = NavigationAction.Parse(inputs);
-
-            Assert.AreEqual(5, actions.Length);
-            Assert.AreEqual("F : 10", actions[0].ToString());
-            Assert.AreEqual("N : 3", actions[1].ToString());
-            Assert.AreEqual("F : 7", actions[2].ToString());
-            Assert.AreEqual("R : 90", actions[3].ToString());
-            Assert.AreEqual("F : 11", actions[4].ToString());
-        }
-
-        [TestMethod]
-        public void PuzzleDay12_1_ShouldParseDirection()
-        {
-            var direction = Direction.Parse("N");
-
-            Assert.IsTrue(direction.Is(Direction.North));
-        }
-
-        [TestMethod]
-        public void PuzzleDay12_1_ShouldMoveDirection()
-        {
-            Assert.IsTrue(Direction.North.RotateRightBy(0).Is(Direction.North));
-            Assert.IsTrue(Direction.North.RotateRightBy(90).Is(Direction.East));
-            Assert.IsTrue(Direction.North.RotateRightBy(180).Is(Direction.South));
-            Assert.IsTrue(Direction.North.RotateRightBy(270).Is(Direction.West));
-            Assert.IsTrue(Direction.North.RotateRightBy(360).Is(Direction.North));
-            Assert.IsTrue(Direction.North.RotateRightBy(450).Is(Direction.East));
-
-            Assert.IsTrue(Direction.North.RotateLeftBy(0).Is(Direction.North));
-            Assert.IsTrue(Direction.North.RotateLeftBy(90).Is(Direction.West));
-            Assert.IsTrue(Direction.North.RotateLeftBy(180).Is(Direction.South));
-            Assert.IsTrue(Direction.North.RotateLeftBy(270).Is(Direction.East));
-            Assert.IsTrue(Direction.North.RotateLeftBy(360).Is(Direction.North));
-            Assert.IsTrue(Direction.North.RotateLeftBy(450).Is(Direction.West));
-        }
-
-        #endregion
-
-        #region "Day 14"
-
+    [TestClass]
+    public class Puzzle2020_Week3_Day14_Fixture
+    {
         [TestMethod]
         public void PuzzleDay14_1_ShouldConvertBinaryToLong()
         {
@@ -368,10 +151,11 @@ F11";
             v = m.ApplyOn(v);
             return v;
         }
+    }
 
-        #endregion
-
-        #region "Day 17"
+    [TestClass]
+    public class Puzzle2020_Week3_Day17_Fixture
+    {
         private const int X = 0;
         private const int Y = 1;
         private const int Z = 2;
@@ -656,16 +440,6 @@ F11";
             foreach (var item in inputs.AllIndices())
                 actual++;
             actual.Should().Be(expected);
-        }
-
-        #endregion
-    }
-
-    public static class DimensionBoundaryTestExtensions
-    {
-        public static bool IsEdge(this DimensionBoundaries source, int x, int y, int z)
-        {
-            return source.IsEdge(new ArrayIndices(x, y, z));
         }
     }
 }

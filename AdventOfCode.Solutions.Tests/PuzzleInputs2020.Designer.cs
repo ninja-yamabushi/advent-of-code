@@ -1294,5 +1294,23 @@ namespace AdventOfCode.Solutions.Tests {
                 return ResourceManager.GetString("2020_17_01_example", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4 * (7 + 5 + 7) + 9 + 2 * ((5 * 6) * 9 + 6 + 3) + 3
+        ///5 + (4 * (3 + 2 + 5 + 9 * 3))
+        ///4 + 5 + 9 * 9 * (7 * (7 + 7 * 3) * (9 + 3) * 5 + (2 * 8 * 3)) * 4
+        ///(6 * 6 * 3 * (7 * 3 * 3 * 5) * 5 + 7) * (2 * 3 * 3 + 2) + 2
+        ///2 + 6 * 5 * 4 + ((3 * 3 * 6 * 5 + 2) * 2 * 2) + 9
+        ///(3 * 4 + 3 * 6 * 7) + ((6 * 8 * 8 * 2 + 9 * 8) + 5 + 5 * 4 * 5 + 9) + (8 + 4) * 5
+        ///3 + 7 + 4 + (4 + (9 + 2 + 4 + 7 + 4)) + 6
+        ///2 * 2 * (9 * 5 * (9 + 4 * 8 * 4 * 5 * 8) + 9) * 2
+        ///5 + (7 + (9 * 3 * 8) * 4 * 2) * (4 + 2 * 8 + 4) * 4 + 9
+        ///(9 + 4 * 8 * 7  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string _2020_18_01 {
+            get {
+                return ResourceManager.GetString("2020_18_01", resourceCulture);
+            }
+        }
     }
 }
